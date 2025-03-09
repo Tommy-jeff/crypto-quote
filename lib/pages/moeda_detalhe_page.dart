@@ -1,17 +1,45 @@
+import 'package:crypto_quote/components/full_button_component.dart';
+import 'package:crypto_quote/components/full_textformfield_component.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 import '../models/moeda.dart';
 
 class MoedaDetalhePage extends StatefulWidget {
-  Moeda moeda;
+  final Moeda moeda;
 
-  MoedaDetalhePage({super.key, required this.moeda});
+  const MoedaDetalhePage({super.key, required this.moeda});
 
   @override
   State<MoedaDetalhePage> createState() => _MoedaDetalhePageState();
 }
 
 class _MoedaDetalhePageState extends State<MoedaDetalhePage> {
+  NumberFormat real = NumberFormat.currency(locale: 'pt_BR', name: 'R\$');
+  final GlobalKey<FormState> _form = GlobalKey<FormState>();
+  final TextEditingController _valor = TextEditingController();
+  double crypto = 0;
+
+  comprar() {
+    if (_form.currentState!.validate()) {
+      /// todo salvar a conta
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.redAccent,
+          content: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            child: Text(
+              "Compra realizada com sucesso!",
+              style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,35 +47,104 @@ class _MoedaDetalhePageState extends State<MoedaDetalhePage> {
         elevation: 1,
         iconTheme: IconThemeData(color: Colors.white),
         centerTitle: true,
-
-        title: Row(
-          spacing: 15,
-          children: [
-            CircleAvatar(
-              backgroundColor: Colors.transparent,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: Image.asset(widget.moeda.icone),
-              ),
-            ),
-            Text(
-              widget.moeda.nome,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 25,
-              ),
-            ),
-          ],
+        title: Text(
+          widget.moeda.nome,
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
         ),
         backgroundColor: Colors.red,
       ),
       body: Column(
         children: [
-          Row(
-            children: [
-              Container(height: 150, child: Image.asset(widget.moeda.icone)),
-            ],
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 24.0),
+                  child: Row(
+                    spacing: 10,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 50,
+                        child: Image.asset(widget.moeda.icone),
+                      ),
+                      Text(
+                        real.format(widget.moeda.preco),
+                        style: TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: -1,
+                          color: Colors.grey[800],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Form(
+                  key: _form,
+                  child: FullTextformfieldComponent(
+                    valor: _valor,
+                    label: 'Valor',
+                    prefixIcon: Icon(Icons.monetization_on_outlined),
+                    inputFormater: [FilteringTextInputFormatter.digitsOnly],
+                    textInputType: TextInputType.number,
+                    onChanged: (value) {
+                      setState(() {
+                        crypto = (value.isEmpty)
+                                ? 0
+                                : double.parse(value) / widget.moeda.preco;
+                      });
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Informe o valor da compra!';
+                      } else if (double.parse(value) < 50) {
+                        return 'Compra mínima é R\$ 50,00';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Visibility(
+                  visible: crypto > 0,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Container(
+                      margin: EdgeInsets.only(top: 20.0),
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.teal.withValues(alpha: 0.05),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        '$crypto ${widget.moeda.sigla}',
+                        style: TextStyle(fontSize: 20, color: Colors.teal),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.bottomCenter,
+                  margin: EdgeInsets.only(top: 24.0),
+                  child: FullButtonComponent(
+                    icon: Icon(
+                      Icons.attach_money,
+                      color: Colors.white,
+                      size: 25,
+                    ),
+                    label: "Comprar",
+                    onPressed: comprar,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

@@ -1,4 +1,5 @@
 import 'package:crypto_quote/models/moeda.dart';
+import 'package:crypto_quote/pages/moeda_detalhe_page.dart';
 import 'package:crypto_quote/repositories/moeda_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -45,9 +46,8 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
       return SliverAppBar(
         snap: true,
         floating: true,
-        title: Center(
-          child: Text("Cripto Moedas", style: TextStyle(color: Colors.white)),
-        ),
+        centerTitle: true,
+        title: Text("Cripto Moedas", style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.red,
         actions: [
           IconButton(
@@ -61,12 +61,10 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
       return SliverAppBar(
         snap: true,
         floating: true,
-
-        title: Center(
-          child: Text(
-            "${selecionadas.length} itens selecionados",
-            style: TextStyle(color: Colors.black87),
-          ),
+        centerTitle: true,
+        title: Text(
+          "${selecionadas.length} itens selecionados",
+          style: TextStyle(color: Colors.black87),
         ),
         backgroundColor: Colors.blueGrey[50],
         elevation: 1,
@@ -93,8 +91,11 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
     }
   }
 
-  moestrarDetalhes(Moeda moeda){
-
+  moestrarDetalhes(Moeda moeda) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => MoedaDetalhePage(moeda: moeda)),
+    );
   }
 
   @override
@@ -111,10 +112,12 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                 ? const Material()
                 : NotificationListener<UserScrollNotification>(
                   onNotification: (scroll) {
-                    if (scroll.direction == ScrollDirection.reverse && showFAB){
+                    if (scroll.direction == ScrollDirection.reverse &&
+                        showFAB) {
                       _controller.reverse();
                       showFAB = false;
-                    } else if (scroll.direction == ScrollDirection.forward && !showFAB){
+                    } else if (scroll.direction == ScrollDirection.forward &&
+                        !showFAB) {
                       _controller.forward();
                       showFAB = true;
                     }

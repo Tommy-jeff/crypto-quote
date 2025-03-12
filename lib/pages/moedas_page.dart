@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:crypto_quote/models/moeda.dart';
 import 'package:crypto_quote/pages/moeda_detalhe_page.dart';
 import 'package:crypto_quote/repositories/moeda_repository.dart';

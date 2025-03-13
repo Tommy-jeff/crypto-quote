@@ -2,10 +2,12 @@ import 'dart:developer';
 
 import 'package:crypto_quote/models/moeda.dart';
 import 'package:crypto_quote/pages/moeda_detalhe_page.dart';
+import 'package:crypto_quote/repositories/favoritos_repository.dart';
 import 'package:crypto_quote/repositories/moeda_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class MoedasPage extends StatefulWidget {
   const MoedasPage({super.key});
@@ -19,6 +21,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
   List<Moeda> selecionadas = [];
   late MoedaRepository moedaRepo;
   bool showFAB = true;
+  late FavoritosRepository favoritosRepository;
 
   late final _controller = AnimationController(
     vsync: this,
@@ -41,6 +44,12 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
   void initState() {
     moedaRepo = MoedaRepository();
     super.initState();
+  }
+
+  limparSelecionadas() {
+    setState(() {
+     selecionadas = [];
+    });
   }
 
   appBarDinamica() {
@@ -79,11 +88,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
           ),
         ],
         leading: IconButton(
-          onPressed: () {
-            setState(() {
-              selecionadas = [];
-            });
-          },
+          onPressed: () {limparSelecionadas();},
           icon: Icon(
             Icons.arrow_back,
             // color: Colors.white
@@ -102,6 +107,9 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    // favoritosRepository = Provider.of<FavoritosRepository>(context);
+    favoritosRepository = context.watch<FavoritosRepository>();
+
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (context, __) => [appBarDinamica()],
@@ -165,6 +173,8 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
+                            if(favoritosRepository.listaFavoritos.contains(tabela[moeda]))
+                              Icon(Icons.star, color: Colors.amber, size: 20),
                           ],
                         ),
                         trailing: Text(real.format(tabela[moeda].preco)),
@@ -194,7 +204,10 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
               ? ScaleTransition(
                 scale: _animation,
                 child: FloatingActionButton.extended(
-                  onPressed: () {},
+                  onPressed: () {
+                    favoritosRepository.alterFav(selecionadas);
+                    limparSelecionadas();
+                  },
                   icon: Icon(Icons.star, color: Colors.white),
                   elevation: 1,
                   shape: RoundedRectangleBorder(

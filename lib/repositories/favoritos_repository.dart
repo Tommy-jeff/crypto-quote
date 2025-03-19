@@ -20,11 +20,4 @@ class FavoritosRepository extends ChangeNotifier{
     notifyListeners();
   }
 
-  // remove(List<Moeda> moedas){
-  //   for(Moeda moeda in moedas){
-  //     if(_listaFavoritos.contains(moeda)) _listaFavoritos.remove(moeda);
-  //   }
-  //   notifyListeners();
-  // }
-
 }

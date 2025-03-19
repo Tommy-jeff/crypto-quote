@@ -1,3 +1,4 @@
+import 'package:crypto_quote/components/coin_card.dart';
 import 'package:crypto_quote/repositories/favoritos_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -45,8 +46,7 @@ class _FavoritosPageState extends State<FavoritosPage> {
                   : ListView.builder(
                     itemCount: favoritos.listaFavoritos.length,
                     itemBuilder: (_, index) {
-                      return Text(favoritos.listaFavoritos[index].nome);
-                        // moedaCard(favoritos.listaFavoritos[index]); TODO create this
+                      return CoinCard(moeda: favoritos.listaFavoritos[index]);
                     },
                   );
             },

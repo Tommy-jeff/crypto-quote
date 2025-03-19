@@ -98,7 +98,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
     }
   }
 
-  moestrarDetalhes(Moeda moeda) {
+  mostrarDetalhes(Moeda moeda) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => MoedaDetalhePage(moeda: moeda)),
@@ -109,6 +109,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     // favoritosRepository = Provider.of<FavoritosRepository>(context);
     favoritosRepository = context.watch<FavoritosRepository>();
+    List<Moeda> favs = favoritosRepository.listaFavoritos;
 
     return Scaffold(
       body: NestedScrollView(
@@ -157,24 +158,26 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                                   ),
                                 ),
                         title: Row(
-                          spacing: 10,
+                          spacing: 20,
                           children: [
-                            Text(
-                              tabela[moeda].sigla,
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),
-                            Text(
-                              tabela[moeda].nome,
-                              style: TextStyle(
-                                fontSize: 17.0,
-                                fontWeight: FontWeight.w500,
-                              ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  tabela[moeda].nome,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Text(
+                                  tabela[moeda].sigla,
+                                  style: TextStyle(fontSize: 13, color: Colors.black45),
+                                ),
+                              ],
                             ),
                             if(favoritosRepository.listaFavoritos.contains(tabela[moeda]))
-                              Icon(Icons.star, color: Colors.amber, size: 20),
+                              Icon(Icons.star, color: Colors.amber, size: 20)
                           ],
                         ),
                         trailing: Text(real.format(tabela[moeda].preco)),
@@ -187,7 +190,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                                 : selecionadas.add(tabela[moeda]);
                           });
                         },
-                        onTap: () => moestrarDetalhes(tabela[moeda]),
+                        onTap: () => mostrarDetalhes(tabela[moeda]),
                       );
                     },
                     padding: EdgeInsets.all(15.0),

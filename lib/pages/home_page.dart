@@ -30,7 +30,10 @@ class _HomePageState extends State<HomePage> {
       body: PageView(
         controller: pageController,
         onPageChanged: setAtualPage,
-        children: [MoedasPage(), FavoritosPage()],
+        children: [
+          MoedasPage(),
+          FavoritosPage(),
+        ],
       ),
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(

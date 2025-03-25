@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:crypto_quote/configs/app_settings.dart';
 import 'package:crypto_quote/models/moeda.dart';
 import 'package:crypto_quote/pages/moeda_detalhe_page.dart';
 import 'package:crypto_quote/repositories/favoritos_repository.dart';
@@ -17,11 +16,39 @@ class MoedasPage extends StatefulWidget {
 }
 
 class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
-  NumberFormat real = NumberFormat.currency(locale: 'pt_BR', name: 'R\$');
+  late NumberFormat real;
+  late Map<String, String> loc;
   List<Moeda> selecionadas = [];
   late MoedaRepository moedaRepo;
   bool showFAB = true;
   late FavoritosRepository favoritosRepository;
+
+  readNumberFormat() {
+    loc = context.watch<AppSettings>().locale;
+    real = NumberFormat.currency(locale: loc["locale"], name: loc["name"]);
+  }
+
+  changeLanguageButton() {
+    final locale = loc["locale"] == "pt_BR" ? "es_US" : "pt_BR";
+    final name = loc["name"] == "R\$" ? "\$" : "R\$";
+
+    return PopupMenuButton(
+      icon: Icon(Icons.language, color: Colors.white),
+      itemBuilder:
+          (context) => [
+            PopupMenuItem(
+              child: ListTile(
+                leading: Icon(Icons.monetization_on_outlined),
+                title: Text("Usar: $locale"),
+                onTap: () {
+                  context.read<AppSettings>().setLocale(locale, name);
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          ],
+    );
+  }
 
   late final _controller = AnimationController(
     vsync: this,
@@ -34,21 +61,21 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
   );
 
   @override
-  void dispose() {
-    _controller.dispose();
-    _animation.dispose();
-    super.dispose();
-  }
-
-  @override
   void initState() {
     moedaRepo = MoedaRepository();
     super.initState();
   }
 
+  @override
+  void dispose() {
+    // _controller.dispose();
+    // _animation.dispose();
+    super.dispose();
+  }
+
   limparSelecionadas() {
     setState(() {
-     selecionadas = [];
+      selecionadas = [];
     });
   }
 
@@ -61,6 +88,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
         title: Text("Cripto Moedas", style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.red,
         actions: [
+          changeLanguageButton(),
           IconButton(
             onPressed: () => moedaRepo.sort(),
             icon: const Icon(Icons.swap_vert),
@@ -88,7 +116,9 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
           ),
         ],
         leading: IconButton(
-          onPressed: () {limparSelecionadas();},
+          onPressed: () {
+            limparSelecionadas();
+          },
           icon: Icon(
             Icons.arrow_back,
             // color: Colors.white
@@ -109,7 +139,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     // favoritosRepository = Provider.of<FavoritosRepository>(context);
     favoritosRepository = context.watch<FavoritosRepository>();
-    List<Moeda> favs = favoritosRepository.listaFavoritos;
+    readNumberFormat();
 
     return Scaffold(
       body: NestedScrollView(
@@ -172,12 +202,17 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                                 ),
                                 Text(
                                   tabela[moeda].sigla,
-                                  style: TextStyle(fontSize: 13, color: Colors.black45),
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.black45,
+                                  ),
                                 ),
                               ],
                             ),
-                            if(favoritosRepository.listaFavoritos.contains(tabela[moeda]))
-                              Icon(Icons.star, color: Colors.amber, size: 20)
+                            if (favoritosRepository.listaFavoritos.contains(
+                              tabela[moeda],
+                            ))
+                              Icon(Icons.star, color: Colors.amber, size: 20),
                           ],
                         ),
                         trailing: Text(real.format(tabela[moeda].preco)),

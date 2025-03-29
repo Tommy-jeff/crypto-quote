@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:crypto_quote/configs/app_settings.dart';
 import 'package:crypto_quote/models/moeda.dart';
 import 'package:crypto_quote/pages/moeda_detalhe_page.dart';
@@ -209,10 +211,19 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                                 ),
                               ],
                             ),
-                            if (favoritosRepository.listaFavoritos.contains(
-                              tabela[moeda],
-                            ))
-                              Icon(Icons.star, color: Colors.amber, size: 20),
+                            Visibility(
+                              visible: favoritosRepository.listaFavoritos.any(
+                                (fav) => fav.sigla == tabela[moeda].sigla,
+                              ),
+                              child: Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                                size: 20,
+                              ),
+                            ),
+                            // if (favoritosRepository.listaFavoritos.any((fav) => fav.sigla == tabela[moeda]
+                            // ))
+                            //   Icon(Icons.star, color: Colors.amber, size: 20),
                           ],
                         ),
                         trailing: Text(real.format(tabela[moeda].preco)),

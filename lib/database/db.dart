@@ -52,7 +52,7 @@ class DB {
 
   String get _historico => ''' 
   
-  CREATE TABLE carteira (
+  CREATE TABLE historico (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   data_operacao INT,
   tipo_operacao TEXT,

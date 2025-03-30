@@ -29,7 +29,7 @@ class ContaRepository extends ChangeNotifier {
   }
 
   setSaldo(double valor) async {
-    db = DB.instance.database;
+    db = await DB.instance.database;
 
     db.update("conta", {
       "saldo" : valor

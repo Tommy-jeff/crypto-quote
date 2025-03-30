@@ -2,6 +2,8 @@ import 'package:crypto_quote/pages/favoritos_page.dart';
 import 'package:crypto_quote/pages/moedas_page.dart';
 import 'package:flutter/material.dart';
 
+import 'configuracoes_page.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -33,6 +35,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           MoedasPage(),
           FavoritosPage(),
+          ConfiguracoesPage(),
         ],
       ),
       bottomNavigationBar: NavigationBarTheme(
@@ -46,7 +49,7 @@ class _HomePageState extends State<HomePage> {
             TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: Colors.white,
+              color: Colors.white60,
             ),
           ),
         ),
@@ -64,6 +67,11 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.star),
               label: "Favoritos",
               selectedIcon: Icon(Icons.star, color: Colors.white),
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.settings),
+              label: "Configurações",
+              selectedIcon: Icon(Icons.settings, color: Colors.white),
             ),
           ],
           onDestinationSelected: (pagina) {

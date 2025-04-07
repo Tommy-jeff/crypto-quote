@@ -150,7 +150,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
         body: AnimatedBuilder(
           animation: moedaRepo,
           builder: (context, child) {
-            List tabela = moedaRepo.tabela;
+            List tabela = MoedaRepository.tabela;
             return (tabela.isEmpty)
                 ? const Material()
                 : NotificationListener<UserScrollNotification>(

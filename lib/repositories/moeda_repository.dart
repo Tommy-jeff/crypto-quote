@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class MoedaRepository extends ChangeNotifier{
 
-  List<Moeda> tabela = [
+  static List<Moeda> tabela = [
     Moeda(
       icone: 'images/bitcoin.png',
       nome: 'Bitcoin',

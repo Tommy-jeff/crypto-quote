@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:crypto_quote/pages/favoritos_page.dart';
 import 'package:crypto_quote/pages/moedas_page.dart';
 import 'package:flutter/material.dart';
 
+import 'carteira_page.dart';
 import 'configuracoes_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,6 +31,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    log("pagina atual: $paginaAtual");
     return Scaffold(
       body: PageView(
         controller: pageController,
@@ -35,49 +39,66 @@ class _HomePageState extends State<HomePage> {
         children: [
           MoedasPage(),
           FavoritosPage(),
+          CarteiraPage(),
           ConfiguracoesPage(),
         ],
       ),
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
-          backgroundColor: Colors.red,
+          // backgroundColor: Colors.grey[200],
           indicatorColor: Colors.transparent,
           iconTheme: WidgetStatePropertyAll(
-            IconThemeData(color: Colors.white60),
-          ),
-          labelTextStyle: WidgetStatePropertyAll(
-            TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Colors.white60,
+            IconThemeData(
+                color: Colors.red[300],
+              size: 27
             ),
           ),
+          labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>((state) {
+            if (state.contains(WidgetState.selected)) {
+              return TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.red,
+              );
+            }
+            return TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: Colors.red[300],
+            );
+          }),
         ),
         child: NavigationBar(
-          animationDuration: Duration(milliseconds: 400),
+          backgroundColor: Colors.grey[200],
+          animationDuration: Duration(milliseconds: 350),
           indicatorColor: Colors.transparent,
           selectedIndex: paginaAtual,
           destinations: [
             NavigationDestination(
               icon: Icon(Icons.list),
               label: "Moedas",
-              selectedIcon: Icon(Icons.list, color: Colors.white),
+              selectedIcon: Icon(Icons.view_list, color: Colors.red, ),
             ),
             NavigationDestination(
-              icon: Icon(Icons.star),
+              icon: Icon(Icons.star_border_outlined),
               label: "Favoritos",
-              selectedIcon: Icon(Icons.star, color: Colors.white),
+              selectedIcon: Icon(Icons.star, color: Colors.red),
             ),
             NavigationDestination(
-              icon: Icon(Icons.settings),
+              icon: Icon(Icons.account_balance_wallet_outlined),
+              label: "Carteira",
+              selectedIcon: Icon(Icons.account_balance_wallet, color: Colors.red),
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.settings_outlined),
               label: "Configurações",
-              selectedIcon: Icon(Icons.settings, color: Colors.white),
+              selectedIcon: Icon(Icons.settings, color: Colors.red),
             ),
           ],
           onDestinationSelected: (pagina) {
             pageController.animateToPage(
               pagina,
-              duration: Duration(milliseconds: 400),
+              duration: Duration(milliseconds: 350),
               curve: Curves.ease,
             );
           },

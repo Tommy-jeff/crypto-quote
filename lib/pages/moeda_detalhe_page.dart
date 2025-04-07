@@ -1,8 +1,10 @@
 import 'package:crypto_quote/components/full_button_component.dart';
 import 'package:crypto_quote/components/full_textformfield_component.dart';
+import 'package:crypto_quote/repositories/conta_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../models/moeda.dart';
 
@@ -20,10 +22,11 @@ class _MoedaDetalhePageState extends State<MoedaDetalhePage> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   final TextEditingController _valor = TextEditingController();
   double crypto = 0;
+  late ContaRepository contaRepository;
 
-  comprar() {
+  comprar() async {
     if (_form.currentState!.validate()) {
-      /// todo salvar a conta
+      await contaRepository.comprar(widget.moeda, double.parse(_valor.text));
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -42,6 +45,9 @@ class _MoedaDetalhePageState extends State<MoedaDetalhePage> {
 
   @override
   Widget build(BuildContext context) {
+    // todo readNumberFormat
+    contaRepository = Provider.of<ContaRepository>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -106,6 +112,8 @@ class _MoedaDetalhePageState extends State<MoedaDetalhePage> {
                         return 'Informe o valor da compra!';
                       } else if (double.parse(value) < 50) {
                         return 'Compra mínima é R\$ 50,00';
+                      } else if (double.parse(value) > contaRepository.saldo) {
+                        return 'Saldo insuficiente';
                       }
                       return null;
                     },

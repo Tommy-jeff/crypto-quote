@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:crypto_quote/configs/const.dart';
 import 'package:crypto_quote/pages/favoritos_page.dart';
 import 'package:crypto_quote/pages/moedas_page.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,7 @@ class _HomePageState extends State<HomePage> {
           indicatorColor: Colors.transparent,
           iconTheme: WidgetStatePropertyAll(
             IconThemeData(
-                color: Colors.red[300],
+                color: Const.tomato50,
               size: 27
             ),
           ),
@@ -58,13 +59,13 @@ class _HomePageState extends State<HomePage> {
               return TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: Colors.red,
+                color: Const.tomato,
               );
             }
             return TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              color: Colors.red[300],
+              color: Const.tomato50,
             );
           }),
         ),
@@ -77,22 +78,22 @@ class _HomePageState extends State<HomePage> {
             NavigationDestination(
               icon: Icon(Icons.list),
               label: "Moedas",
-              selectedIcon: Icon(Icons.view_list, color: Colors.red, ),
+              selectedIcon: Icon(Icons.view_list, color: Const.tomato),
             ),
             NavigationDestination(
               icon: Icon(Icons.star_border_outlined),
               label: "Favoritos",
-              selectedIcon: Icon(Icons.star, color: Colors.red),
+              selectedIcon: Icon(Icons.star, color: Const.tomato),
             ),
             NavigationDestination(
               icon: Icon(Icons.account_balance_wallet_outlined),
               label: "Carteira",
-              selectedIcon: Icon(Icons.account_balance_wallet, color: Colors.red),
+              selectedIcon: Icon(Icons.account_balance_wallet, color: Const.tomato),
             ),
             NavigationDestination(
               icon: Icon(Icons.settings_outlined),
               label: "Configurações",
-              selectedIcon: Icon(Icons.settings, color: Colors.red),
+              selectedIcon: Icon(Icons.settings, color: Const.tomato),
             ),
           ],
           onDestinationSelected: (pagina) {

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:crypto_quote/configs/app_settings.dart';
+import 'package:crypto_quote/configs/const.dart';
 import 'package:crypto_quote/models/posicao.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class _CarteiraPageState extends State<CarteiraPage> {
     setTotalCarteira();
 
     return Scaffold(
-      backgroundColor: Colors.red[50],
+      backgroundColor: Const.tomatoWhite,
       body: SingleChildScrollView(
         padding: EdgeInsets.only(top: 48),
         child: Column(
@@ -94,7 +95,7 @@ class _CarteiraPageState extends State<CarteiraPage> {
       final bool isSaldo = i == tamanhoLista - 1;
       final double fontSize = isTouched ? 18 : 14;
       final double radius = isTouched ? 60 : 50;
-      final Color? color = isTouched ? Colors.tealAccent : Colors.tealAccent[400];
+      final Color color = isTouched ? Const.zucchiniLite : Const.zucchiniExtraLite;
 
       double porcentagem = 0;
       if (!isSaldo) {
@@ -112,7 +113,7 @@ class _CarteiraPageState extends State<CarteiraPage> {
         titleStyle: TextStyle(
           fontSize: fontSize,
           fontWeight: FontWeight.bold,
-          color: Colors.black87
+          color: Const.tomatoWhite
         )
       );
 
@@ -160,7 +161,7 @@ class _CarteiraPageState extends State<CarteiraPage> {
                   graficoLabel,
                   style: TextStyle(
                     fontSize: 20,
-                    color: Colors.teal
+                    color: Const.zucchini
                   ),
                 ),
                 Text(
@@ -189,7 +190,12 @@ class _CarteiraPageState extends State<CarteiraPage> {
         )
       );
 
-      widgets.add(Divider());
+      widgets.add(Divider(
+        color: Const.tomato80,
+        indent: 10,
+        endIndent: 10,
+        height: 20,
+      ));
     }
 
     return Column(

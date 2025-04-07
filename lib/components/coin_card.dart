@@ -18,12 +18,6 @@ class CoinCard extends StatefulWidget {
 
 class _CoinCardState extends State<CoinCard> {
   late NumberFormat real;
-  late Map<String, String> loc;
-
-  readNumberFormat() {
-    loc = context.watch<AppSettings>().locale;
-    real = NumberFormat.currency(locale: loc["locale"], name: loc["name"]);
-  }
 
   static Map<String, Color> precoColor = <String, Color>{
     'up': Colors.teal,
@@ -40,7 +34,8 @@ class _CoinCardState extends State<CoinCard> {
   @override
   Widget build(BuildContext context) {
     List<Moeda> alterFav = [widget.moeda];
-    readNumberFormat();
+    final loc = context.read<AppSettings>().locale;
+    real = NumberFormat.currency(locale: loc["locale"], name: loc["name"]);
 
     return Card(
       margin: EdgeInsets.only(top: 12),

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:crypto_quote/configs/app_settings.dart';
+import 'package:crypto_quote/configs/const.dart';
 import 'package:crypto_quote/models/moeda.dart';
 import 'package:crypto_quote/pages/moeda_detalhe_page.dart';
 import 'package:crypto_quote/repositories/favoritos_repository.dart';
@@ -88,7 +89,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
         floating: true,
         centerTitle: true,
         title: Text("Cripto Moedas", style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.red[700],
+        backgroundColor: Const.tomato,
         actions: [
           changeLanguageButton(),
           IconButton(
@@ -259,7 +260,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(30)),
                   ),
-                  backgroundColor: Colors.redAccent,
+                  backgroundColor: Const.amaranth,
                   label: Text(
                     "FAVORITAR",
                     style: TextStyle(

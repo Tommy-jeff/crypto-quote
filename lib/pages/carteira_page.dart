@@ -35,6 +35,7 @@ class _CarteiraPageState extends State<CarteiraPage> {
     setTotalCarteira();
 
     return Scaffold(
+      backgroundColor: Colors.red[50],
       body: SingleChildScrollView(
         padding: EdgeInsets.only(top: 48),
         child: Column(
@@ -54,6 +55,7 @@ class _CarteiraPageState extends State<CarteiraPage> {
               ),
             ),
             loadGrafico(),
+            loadHistorico(),
           ],
         ),
       ),
@@ -139,8 +141,13 @@ class _CarteiraPageState extends State<CarteiraPage> {
                     touchCallback:
                         (p0, p1) => {
                           setState(() {
-                            index = p1!.touchedSection!.touchedSectionIndex;
-                            setGraficoDados(index);
+                            final touchedSection = p1?.touchedSection;
+                            if (touchedSection != null) {
+                              index = p1!.touchedSection!.touchedSectionIndex;
+                              setGraficoDados(index);
+                            } else {
+                              index = -1;
+                            }
                           }),
                         },
                   ),
@@ -167,6 +174,26 @@ class _CarteiraPageState extends State<CarteiraPage> {
   }
 
   loadHistorico(){
+    final historico = conta.historico;
+    final date = DateFormat("dd/MM/yyyy - HH:mm");
+    List<Widget> widgets = [];
 
+    for (var transacao in historico) {
+      final dateUtc = transacao.dataOperacao.toUtc();
+      final dateLocal = dateUtc.toLocal();
+      widgets.add(
+        ListTile(
+          title: Text("${transacao.tipoOperacao.toUpperCase()} - ${transacao.moeda.nome}"),
+          subtitle: Text(date.format(dateLocal)),
+          trailing: Text(real.format(transacao.moeda.preco * transacao.quantidade)),
+        )
+      );
+
+      widgets.add(Divider());
+    }
+
+    return Column(
+      children: widgets,
+    );
   }
 }

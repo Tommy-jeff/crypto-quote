@@ -1,7 +1,10 @@
 import 'package:crypto_quote/components/coin_card.dart';
 import 'package:crypto_quote/repositories/favoritos_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import '../configs/app_settings.dart';
 
 class FavoritosPage extends StatefulWidget {
   const FavoritosPage({super.key});
@@ -11,6 +14,7 @@ class FavoritosPage extends StatefulWidget {
 }
 
 class _FavoritosPageState extends State<FavoritosPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

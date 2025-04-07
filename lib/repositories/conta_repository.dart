@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:crypto_quote/repositories/moeda_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../database/db.dart';
+import '../models/historico.dart';
 import '../models/moeda.dart';
 import '../models/posicao.dart';
 
@@ -15,6 +18,7 @@ class ContaRepository extends ChangeNotifier {
   double get saldo => _saldo;
 
   List<Posicao> get carteira => _carteira;
+
   List<Historico> get historico => _historico;
 
   ContaRepository() {
@@ -24,6 +28,7 @@ class ContaRepository extends ChangeNotifier {
   _initRepository() async {
     await _getSaldo();
     await _getCarteira();
+    await _getHistorico();
   }
 
   _getSaldo() async {
@@ -80,6 +85,7 @@ class ContaRepository extends ChangeNotifier {
         "tipo_operacao": "compra",
         "data_operacao": DateTime.now().millisecondsSinceEpoch,
       });
+      log("time now ${DateTime.now().millisecondsSinceEpoch}");
 
       /// Atualizar o saldo
       await txn.update("conta", {"saldo": saldo - valor});
@@ -96,7 +102,29 @@ class ContaRepository extends ChangeNotifier {
       Moeda moeda = MoedaRepository.tabela.firstWhere(
         (m) => m.sigla == posicao["sigla"],
       );
-      _carteira.add(Posicao(moeda: moeda, quantidade: double.parse(posicao["quantidade"])));
+      _carteira.add(
+        Posicao(moeda: moeda, quantidade: double.parse(posicao["quantidade"])),
+      );
+    }
+    notifyListeners();
+  }
+
+  _getHistorico() async {
+    _historico = [];
+    List transacoes = await db.query("historico");
+    for (var transacao in transacoes) {
+      Moeda moeda = MoedaRepository.tabela.firstWhere(
+        (m) => m.sigla == transacao["sigla"],
+      );
+      _historico.add(
+        Historico(
+          dataOperacao: DateTime.fromMillisecondsSinceEpoch(transacao["data_operacao"]),
+          tipoOperacao: transacao["tipo_operacao"],
+          moeda: moeda,
+          valor: transacao["valor"],
+          quantidade: double.parse(transacao["quantidade"]),
+        ),
+      );
     }
     notifyListeners();
   }

@@ -88,7 +88,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
         floating: true,
         centerTitle: true,
         title: Text("Cripto Moedas", style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.red[700],
         actions: [
           changeLanguageButton(),
           IconButton(
@@ -221,9 +221,6 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                                 size: 20,
                               ),
                             ),
-                            // if (favoritosRepository.listaFavoritos.any((fav) => fav.sigla == tabela[moeda]
-                            // ))
-                            //   Icon(Icons.star, color: Colors.amber, size: 20),
                           ],
                         ),
                         trailing: Text(real.format(tabela[moeda].preco)),

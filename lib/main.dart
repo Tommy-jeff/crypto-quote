@@ -11,6 +11,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await HiveConfig.start();
 
+  ///todo: operação completa de venda
+  ///todo: reformulação da organização das páginas para acomodar uma página das moedas compradas
+
   runApp(
     MultiProvider(
       providers: [

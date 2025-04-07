@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../configs/app_settings.dart';
+
 class CoinCard extends StatefulWidget {
   Moeda moeda;
 
@@ -15,7 +17,13 @@ class CoinCard extends StatefulWidget {
 }
 
 class _CoinCardState extends State<CoinCard> {
-  NumberFormat real = NumberFormat.currency(locale: "pt_BR", name: "R\$");
+  late NumberFormat real;
+  late Map<String, String> loc;
+
+  readNumberFormat() {
+    loc = context.watch<AppSettings>().locale;
+    real = NumberFormat.currency(locale: loc["locale"], name: loc["name"]);
+  }
 
   static Map<String, Color> precoColor = <String, Color>{
     'up': Colors.teal,
@@ -32,6 +40,7 @@ class _CoinCardState extends State<CoinCard> {
   @override
   Widget build(BuildContext context) {
     List<Moeda> alterFav = [widget.moeda];
+    readNumberFormat();
 
     return Card(
       margin: EdgeInsets.only(top: 12),

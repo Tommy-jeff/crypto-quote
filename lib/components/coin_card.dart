@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../configs/app_settings.dart';
+import '../configs/const.dart';
 
 class CoinCard extends StatefulWidget {
   Moeda moeda;
@@ -18,10 +19,11 @@ class CoinCard extends StatefulWidget {
 
 class _CoinCardState extends State<CoinCard> {
   late NumberFormat real;
+  bool confirmDelete = false;
 
   static Map<String, Color> precoColor = <String, Color>{
-    'up': Colors.teal,
-    'down': Colors.indigo,
+    'up': Const.zucchini,
+    'down': Const.denim,
   };
 
   abrirDetalhes() {
@@ -84,23 +86,36 @@ class _CoinCardState extends State<CoinCard> {
                   ),
                 ),
               ),
-              PopupMenuButton(
-                icon: Icon(Icons.more_vert),
-                itemBuilder:
-                    (context) => [
-                      PopupMenuItem(
-                        child: ListTile(
-                          title: Text("Remover das favoritas"),
-                          onTap: () {
-                            Navigator.pop(context);
-                            Provider.of<FavoritosRepository>(
-                              context,
-                              listen: false,
-                            ).alterFav(alterFav);
-                          },
-                        ),
-                      ),
-                    ],
+              IconButton(
+                onPressed: () {
+                  if (confirmDelete) {
+                    // Navigator.pop(context);
+                    Provider.of<FavoritosRepository>(
+                      context,
+                      listen: false,
+                    ).alterFav(alterFav);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Const.tomato,
+                          content: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: Text("Moeda ${widget.moeda.nome} desfavoritada"),
+                          ))
+                    );
+                  }
+                  setState(() {
+                    confirmDelete = !confirmDelete;
+                  });
+                },
+                onLongPress: () {
+                  setState(() {
+                    confirmDelete = false;
+                  });
+                },
+                icon:
+                    !confirmDelete
+                        ? Icon(Icons.delete_outline)
+                        : Icon(Icons.delete, color: Const.tomato),
               ),
             ],
           ),

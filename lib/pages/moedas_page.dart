@@ -203,24 +203,29 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                Text(
-                                  tabela[moeda].sigla,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    color: Colors.black45,
-                                  ),
+                                Row(
+                                  spacing: 10,
+                                  children: [
+                                    Text(
+                                      tabela[moeda].sigla,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.black45,
+                                      ),
+                                    ),
+                                    Visibility(
+                                      visible: favoritosRepository.listaFavoritos.any(
+                                            (fav) => fav.sigla == tabela[moeda].sigla,
+                                      ),
+                                      child: Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                        size: 20,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
-                            ),
-                            Visibility(
-                              visible: favoritosRepository.listaFavoritos.any(
-                                (fav) => fav.sigla == tabela[moeda].sigla,
-                              ),
-                              child: Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                                size: 20,
-                              ),
                             ),
                           ],
                         ),
@@ -245,30 +250,30 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
           },
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton:
           selecionadas.isNotEmpty
               ? ScaleTransition(
                 scale: _animation,
-                child: FloatingActionButton.extended(
+                child: FloatingActionButton(
                   onPressed: () {
                     favoritosRepository.alterFav(selecionadas);
                     limparSelecionadas();
                   },
-                  icon: Icon(Icons.star, color: Colors.white),
                   elevation: 1,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(30)),
                   ),
-                  backgroundColor: Const.amaranth,
-                  label: Text(
-                    "FAVORITAR",
-                    style: TextStyle(
-                      letterSpacing: 0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
+                  backgroundColor: Const.golden,
+                  child: Icon(Icons.star, color: Colors.white),
+                  // label: Text(
+                  //   "FAVORITAR",
+                  //   style: TextStyle(
+                  //     letterSpacing: 0,
+                  //     fontWeight: FontWeight.bold,
+                  //     color: Colors.white,
+                  //   ),
+                  // ),
                 ),
               )
               : null,

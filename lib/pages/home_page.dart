@@ -21,6 +21,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    super.initState();
     pageController = PageController(initialPage: paginaAtual);
   }
 
@@ -49,10 +50,7 @@ class _HomePageState extends State<HomePage> {
           // backgroundColor: Colors.grey[200],
           indicatorColor: Colors.transparent,
           iconTheme: WidgetStatePropertyAll(
-            IconThemeData(
-                color: Const.tomato50,
-              size: 27
-            ),
+            IconThemeData(color: Const.tomato50, size: 25),
           ),
           labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>((state) {
             if (state.contains(WidgetState.selected)) {
@@ -78,22 +76,22 @@ class _HomePageState extends State<HomePage> {
             NavigationDestination(
               icon: Icon(Icons.list),
               label: "Moedas",
-              selectedIcon: Icon(Icons.view_list, color: Const.tomato),
+              selectedIcon: Icon(Icons.view_list, color: Const.tomato, size: 30),
             ),
             NavigationDestination(
               icon: Icon(Icons.star_border_outlined),
               label: "Favoritos",
-              selectedIcon: Icon(Icons.star, color: Const.tomato),
+              selectedIcon: Icon(Icons.star, color: Const.tomato, size: 30),
             ),
             NavigationDestination(
               icon: Icon(Icons.account_balance_wallet_outlined),
               label: "Carteira",
-              selectedIcon: Icon(Icons.account_balance_wallet, color: Const.tomato),
+              selectedIcon: Icon(Icons.account_balance_wallet, color: Const.tomato, size: 30),
             ),
             NavigationDestination(
               icon: Icon(Icons.settings_outlined),
               label: "Configurações",
-              selectedIcon: Icon(Icons.settings, color: Const.tomato),
+              selectedIcon: Icon(Icons.settings, color: Const.tomato, size: 30),
             ),
           ],
           onDestinationSelected: (pagina) {

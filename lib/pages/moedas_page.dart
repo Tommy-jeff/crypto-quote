@@ -53,6 +53,57 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
     );
   }
 
+  changeFilterButton(Color color) {
+    int nameFilterAplyied = 0;
+    int valueFilterAplyied = 0;
+    return PopupMenuButton(
+      icon: Icon(Icons.filter_list, color: color),
+      itemBuilder:
+          (context) => [
+            PopupMenuItem(
+              onTap: () => {
+                if (nameFilterAplyied != 1) {
+                  moedaRepo.sort(1),
+                  nameFilterAplyied = 1
+                } else if (nameFilterAplyied == 1) {
+                  moedaRepo.sort(2),
+                  nameFilterAplyied = 2
+                },
+              },
+              child: ListTile(
+                title: Text("A a Z"),
+                trailing:
+                nameFilterAplyied == 1
+                        ? Icon(Icons.arrow_upward_outlined)
+                        : nameFilterAplyied == 2
+                        ? Icon(Icons.arrow_downward_outlined)
+                        : null,
+              ),
+            ),
+            PopupMenuItem(
+              onTap: () => {
+                if (valueFilterAplyied != 3) {
+                  moedaRepo.sort(3),
+                  valueFilterAplyied = 3
+                } else if (valueFilterAplyied == 3) {
+                  moedaRepo.sort(4),
+                  valueFilterAplyied = 4
+                },
+              },
+              child: ListTile(
+                title: Text("Preço"),
+                trailing:
+                valueFilterAplyied == 3
+                    ? Icon(Icons.arrow_upward_outlined)
+                    : valueFilterAplyied == 4
+                    ? Icon(Icons.arrow_downward_outlined)
+                    : null,
+              ),
+            ),
+          ],
+    );
+  }
+
   late final _controller = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 400),
@@ -92,11 +143,12 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
         backgroundColor: Const.tomato,
         actions: [
           changeLanguageButton(),
-          IconButton(
-            onPressed: () => moedaRepo.sort(),
-            icon: const Icon(Icons.swap_vert),
-            color: Colors.white,
-          ),
+          changeFilterButton(Colors.white),
+          // IconButton(
+          //   onPressed: () => moedaRepo.sort(2),
+          //   icon: const Icon(Icons.filter_list),
+          //   color: Colors.white,
+          // ),
         ],
       );
     } else {
@@ -110,13 +162,8 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
         ),
         backgroundColor: Colors.blueGrey[50],
         elevation: 1,
-        iconTheme: IconThemeData(color: Colors.black87),
         actions: [
-          IconButton(
-            onPressed: () => moedaRepo.sort(),
-            icon: const Icon(Icons.swap_vert),
-            // color: Colors.white,
-          ),
+          changeFilterButton(Colors.black87),
         ],
         leading: IconButton(
           onPressed: () {
@@ -176,7 +223,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                         leading:
                             selecionadas.contains(tabela[moeda])
                                 ? Icon(
-                                  Icons.check_circle,
+                                  Icons.check_circle_rounded,
                                   size: 35.0,
                                   color: Colors.black87,
                                 )
@@ -214,9 +261,13 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                                       ),
                                     ),
                                     Visibility(
-                                      visible: favoritosRepository.listaFavoritos.any(
-                                            (fav) => fav.sigla == tabela[moeda].sigla,
-                                      ),
+                                      visible: favoritosRepository
+                                          .listaFavoritos
+                                          .any(
+                                            (fav) =>
+                                                fav.sigla ==
+                                                tabela[moeda].sigla,
+                                          ),
                                       child: Icon(
                                         Icons.star,
                                         color: Colors.amber,
@@ -231,7 +282,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                         ),
                         trailing: Text(real.format(tabela[moeda].preco)),
                         selected: selecionadas.contains(tabela[moeda]),
-                        selectedTileColor: Colors.blueGrey[50],
+                        selectedTileColor: Const.tomatoWhite,
                         onLongPress: () {
                           setState(() {
                             selecionadas.contains(tabela[moeda])

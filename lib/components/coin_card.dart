@@ -89,7 +89,6 @@ class _CoinCardState extends State<CoinCard> {
               IconButton(
                 onPressed: () {
                   if (confirmDelete) {
-                    // Navigator.pop(context);
                     Provider.of<FavoritosRepository>(
                       context,
                       listen: false,

@@ -122,13 +122,17 @@ class MoedaRepository extends ChangeNotifier{
     ),
   ];
 
-  bool isSorted = false;
-  sort() {
-    if(!isSorted) {
-      tabela.sort((Moeda a, Moeda b) => a.nome.compareTo(b.nome));
-      isSorted = true;
-    } else {
-      tabela = tabela.reversed.toList();
+  sort(int type) {
+    /// type of filters:
+    /// type 1 = filter the name from a to z
+    /// type 2 = filter the name from z to a
+    /// type 3 = filter the value from highest value to lowest value
+    /// type 4 = filter the value from lowest value to highest value
+    switch(type){
+      case(1): tabela.sort((Moeda a, Moeda b) => a.nome.compareTo(b.nome));
+      case(2): tabela.sort((Moeda a, Moeda b) => b.nome.compareTo(a.nome));
+      case(3): tabela.sort((Moeda a, Moeda b) => b.preco.compareTo(a.preco));
+      case(4): tabela.sort((Moeda a, Moeda b) => a.preco.compareTo(b.preco));
     }
     notifyListeners();
   }

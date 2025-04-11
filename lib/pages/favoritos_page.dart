@@ -1,4 +1,5 @@
 import 'package:crypto_quote/components/coin_card.dart';
+import 'package:crypto_quote/configs/const.dart';
 import 'package:crypto_quote/repositories/favoritos_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -26,7 +27,7 @@ class _FavoritosPageState extends State<FavoritosPage> {
                 floating: true,
                 centerTitle: true,
                 title: Text("Favoritos", style: TextStyle(color: Colors.white)),
-                backgroundColor: Colors.red,
+                backgroundColor: Const.tomato,
                 actions: [
                   IconButton(
                     onPressed: () => {},

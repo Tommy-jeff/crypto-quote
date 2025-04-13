@@ -1,4 +1,4 @@
-import 'package:crypto_quote/components/coin_card.dart';
+import 'package:crypto_quote/components/coin_favorite_card.dart';
 import 'package:crypto_quote/configs/const.dart';
 import 'package:crypto_quote/repositories/favoritos_repository.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +38,7 @@ class _FavoritosPageState extends State<FavoritosPage> {
               ),
             ],
         body: Container(
-          color: Colors.indigo.withAlpha(5),
+          color: Colors.red.withAlpha(5),
           height: MediaQuery.of(context).size.height,
           padding: EdgeInsets.all(12.0),
           child: Consumer<FavoritosRepository>(
@@ -51,7 +51,7 @@ class _FavoritosPageState extends State<FavoritosPage> {
                   : ListView.builder(
                     itemCount: favoritos.listaFavoritos.length,
                     itemBuilder: (_, index) {
-                      return CoinCard(moeda: favoritos.listaFavoritos[index]);
+                      return CoinFavoriteCard(moeda: favoritos.listaFavoritos[index]);
                     },
                   );
             },

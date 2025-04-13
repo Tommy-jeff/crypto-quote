@@ -1,5 +1,7 @@
 import 'package:crypto_quote/components/full_button_component.dart';
 import 'package:crypto_quote/components/full_textformfield_component.dart';
+import 'package:crypto_quote/configs/app_settings.dart';
+import 'package:crypto_quote/configs/const.dart';
 import 'package:crypto_quote/repositories/conta_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,19 +20,22 @@ class MoedaDetalhePage extends StatefulWidget {
 }
 
 class _MoedaDetalhePageState extends State<MoedaDetalhePage> {
-  NumberFormat real = NumberFormat.currency(locale: 'pt_BR', name: 'R\$');
+  late NumberFormat real;
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   final TextEditingController _valor = TextEditingController();
   double crypto = 0;
   late ContaRepository contaRepository;
 
-  comprar() async {
+  executeCompraRepo() async {
+    await contaRepository.comprar(widget.moeda, double.parse(_valor.text));
+  }
+  comprar() {
     if (_form.currentState!.validate()) {
-      await contaRepository.comprar(widget.moeda, double.parse(_valor.text));
+      executeCompraRepo();
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: Colors.redAccent,
+          backgroundColor: Const.tomato,
           content: Padding(
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: Text(
@@ -45,7 +50,8 @@ class _MoedaDetalhePageState extends State<MoedaDetalhePage> {
 
   @override
   Widget build(BuildContext context) {
-    // todo readNumberFormat
+    final loc = context.read<AppSettings>().locale;
+    real = NumberFormat.currency(locale: loc["locale"], name: loc["name"]);
     contaRepository = Provider.of<ContaRepository>(context, listen: false);
 
     return Scaffold(
@@ -61,7 +67,7 @@ class _MoedaDetalhePageState extends State<MoedaDetalhePage> {
             fontSize: 25,
           ),
         ),
-        backgroundColor: Colors.red,
+        backgroundColor: Const.tomato,
       ),
       body: Column(
         children: [
@@ -145,7 +151,7 @@ class _MoedaDetalhePageState extends State<MoedaDetalhePage> {
                     icon: Icon(
                       Icons.attach_money,
                       color: Colors.white,
-                      size: 25,
+                      size: 30,
                     ),
                     label: "Comprar",
                     onPressed: comprar,

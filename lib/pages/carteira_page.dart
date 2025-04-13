@@ -136,7 +136,7 @@ class _CarteiraPageState extends State<CarteiraPage> {
               child: PieChart(
                 PieChartData(
                   sectionsSpace: 5,
-                  centerSpaceRadius: 110,
+                  centerSpaceRadius: 120,
                   sections: loadCarteira(),
                   pieTouchData: PieTouchData(
                     touchCallback:
@@ -152,6 +152,7 @@ class _CarteiraPageState extends State<CarteiraPage> {
                           }),
                         },
                   ),
+                  startDegreeOffset: 50,
                 ),
               ),
             ),

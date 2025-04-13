@@ -1,3 +1,4 @@
+import 'package:crypto_quote/configs/const.dart';
 import 'package:flutter/material.dart';
 
 class FullButtonComponent extends StatelessWidget {
@@ -7,7 +8,7 @@ class FullButtonComponent extends StatelessWidget {
 
   final buttonStyle = ElevatedButton.styleFrom(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-    backgroundColor: Colors.red[400]
+    backgroundColor: Const.zucchiniLite
   );
 
   FullButtonComponent({

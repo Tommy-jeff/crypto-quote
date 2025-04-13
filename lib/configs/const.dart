@@ -6,6 +6,7 @@ class Const {
   static final Color tomato = Color(0xFFA51E22);
   static final Color tomatoLite = Color(0xFFC62428);
   static final Color tomatoWhite = Color(0xFFEBDBDB);
+  static final Color tomato05 = Color(0xD9A51E22);
   static final Color tomato50 = Color(0x80A51E22);
   static final Color tomato80 = Color(0x33A51E22);
   static final Color tomato95 = Color(0x0DA51E22);

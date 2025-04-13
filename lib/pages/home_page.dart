@@ -31,6 +31,31 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Widget testeAppBar() {
+    return SliverAppBar(
+      leading: IconButton(
+        onPressed: () => {},
+        // _key.currentState?.openDrawer(),
+        icon: Icon(Icons.menu_rounded, color: Colors.white),
+      ),
+      toolbarHeight: 70,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(10),
+          bottomRight: Radius.circular(10),
+        ),
+      ),
+      snap: true,
+      floating: true,
+      centerTitle: true,
+      title: Text("Criptos", style: TextStyle(color: Colors.white)),
+      backgroundColor: Const.tomato,
+      actions: [
+        // changeLanguageButton(), changeFilterButton(Colors.white)
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     log("pagina atual: $paginaAtual");
@@ -47,7 +72,7 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
-          // backgroundColor: Colors.grey[200],
+          backgroundColor: Colors.grey[200],
           indicatorColor: Colors.transparent,
           iconTheme: WidgetStatePropertyAll(
             IconThemeData(color: Const.tomato50, size: 25),
@@ -68,6 +93,7 @@ class _HomePageState extends State<HomePage> {
           }),
         ),
         child: NavigationBar(
+          height: 60,
           backgroundColor: Colors.grey[200],
           animationDuration: Duration(milliseconds: 350),
           indicatorColor: Colors.transparent,
@@ -76,7 +102,8 @@ class _HomePageState extends State<HomePage> {
             NavigationDestination(
               icon: Icon(Icons.list),
               label: "Moedas",
-              selectedIcon: Icon(Icons.view_list, color: Const.tomato, size: 30),
+              selectedIcon: Icon(Icons.view_list, color: Const.tomato, size: 30,
+              ),
             ),
             NavigationDestination(
               icon: Icon(Icons.star_border_outlined),
@@ -86,7 +113,11 @@ class _HomePageState extends State<HomePage> {
             NavigationDestination(
               icon: Icon(Icons.account_balance_wallet_outlined),
               label: "Carteira",
-              selectedIcon: Icon(Icons.account_balance_wallet, color: Const.tomato, size: 30),
+              selectedIcon: Icon(
+                Icons.account_balance_wallet,
+                color: Const.tomato,
+                size: 30,
+              ),
             ),
             NavigationDestination(
               icon: Icon(Icons.settings_outlined),
@@ -95,11 +126,12 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
           onDestinationSelected: (pagina) {
-            pageController.animateToPage(
-              pagina,
-              duration: Duration(milliseconds: 350),
-              curve: Curves.ease,
-            );
+            pageController.jumpToPage(pagina);
+            // pageController.animateToPage(
+            //   pagina,
+            //   duration: Duration(milliseconds: 200),
+            //   curve: Curves.ease,
+            // );
           },
         ),
       ),

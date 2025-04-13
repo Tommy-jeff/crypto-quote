@@ -27,31 +27,34 @@ class _ConfiguracoesPageState extends State<ConfiguracoesPage> {
       appBar: AppBar(
         toolbarHeight: 70,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10)
-            )
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(10),
+            bottomRight: Radius.circular(10),
+          ),
         ),
         title: Text("Conta", style: TextStyle(color: Colors.white)),
         backgroundColor: Const.tomato,
         centerTitle: true,
       ),
-      body: Padding(
-        padding: EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-            ListTile(
-              title: Text("Saldo"),
-              subtitle: Text(
-                real.format(conta.saldo),
-                style: TextStyle(fontSize: 25, color: Colors.indigo[300]),
+      body: Container(
+        color: Colors.red.withAlpha(10),
+        child: Padding(
+          padding: EdgeInsets.all(12.0),
+          child: Column(
+            children: [
+              ListTile(
+                title: Text("Saldo"),
+                subtitle: Text(
+                  real.format(conta.saldo),
+                  style: TextStyle(fontSize: 25, color: Colors.indigo[300]),
+                ),
+                trailing: IconButton(
+                  onPressed: updateSaldo,
+                  icon: Icon(Icons.edit),
+                ),
               ),
-              trailing: IconButton(
-                onPressed: updateSaldo,
-                icon: Icon(Icons.edit),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

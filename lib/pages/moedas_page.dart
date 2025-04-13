@@ -1,6 +1,5 @@
-import 'dart:developer';
+import 'dart:ui';
 
-import 'package:crypto_quote/components/coin_card.dart';
 import 'package:crypto_quote/configs/app_settings.dart';
 import 'package:crypto_quote/configs/const.dart';
 import 'package:crypto_quote/models/moeda.dart';
@@ -11,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sidebarx/sidebarx.dart';
 
 class MoedasPage extends StatefulWidget {
   const MoedasPage({super.key});
@@ -26,6 +26,11 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
   late MoedaRepository moedaRepo;
   bool showFAB = true;
   late FavoritosRepository favoritosRepository;
+  final _key = GlobalKey<ScaffoldState>();
+  final _sideBarControler = SidebarXController(
+    selectedIndex: 0,
+    extended: true,
+  );
 
   readNumberFormat() {
     loc = context.watch<AppSettings>().locale;
@@ -133,17 +138,21 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
   appBarDinamica() {
     if (selecionadas.isEmpty) {
       return SliverAppBar(
+        leading: IconButton(
+          onPressed: () => _key.currentState?.openDrawer(),
+          icon: Icon(Icons.menu_rounded, color: Colors.white),
+        ),
         toolbarHeight: 70,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10)
-            )
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(10),
+            bottomRight: Radius.circular(10),
+          ),
         ),
         snap: true,
         floating: true,
         centerTitle: true,
-        title: Text("Cripto Moedas", style: TextStyle(color: Colors.white)),
+        title: Text("Criptos", style: TextStyle(color: Colors.white)),
         backgroundColor: Const.tomato,
         actions: [changeLanguageButton(), changeFilterButton(Colors.white)],
       );
@@ -151,10 +160,10 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
       return SliverAppBar(
         toolbarHeight: 70,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10)
-            )
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(10),
+            bottomRight: Radius.circular(10),
+          ),
         ),
         snap: true,
         floating: true,
@@ -225,7 +234,11 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
             ),
             trailing: Text(
               real.format(moeda.preco),
-              style: TextStyle(fontSize: 16, letterSpacing: -1, fontWeight: FontWeight.w400),
+              style: TextStyle(
+                fontSize: 16,
+                letterSpacing: -1,
+                fontWeight: FontWeight.w400,
+              ),
             ),
             selected: selecionadas.contains(moeda),
             onLongPress: () {
@@ -242,6 +255,27 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
     );
   }
 
+  Widget sideBar(SidebarXController controller) {
+    return BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
+      child: SidebarX(
+        controller: controller,
+        extendedTheme: SidebarXTheme(
+          width: 200,
+          decoration: BoxDecoration(
+            color: Const.tomato05.withAlpha(220)
+          )
+        ),
+        theme: SidebarXTheme(
+          iconTheme: IconThemeData(
+            color: Const.tomatoWhite
+          )
+        ),
+        items: [SidebarXItem(icon: Icons.person, label: "Conta")],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // favoritosRepository = Provider.of<FavoritosRepository>(context);
@@ -249,7 +283,10 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
     readNumberFormat();
 
     return Scaffold(
-      body: NestedScrollView(
+      key: _key,
+      drawer: sideBar(_sideBarControler),
+      body:
+      NestedScrollView(
         headerSliverBuilder: (context, __) => [appBarDinamica()],
         floatHeaderSlivers: true,
         body: AnimatedBuilder(
@@ -272,7 +309,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                     return true;
                   },
                   child: Container(
-                    color: Colors.red.withAlpha(5),
+                    color: Colors.red.withAlpha(10),
                     height: MediaQuery.of(context).size.height,
                     padding: EdgeInsets.all(12.0),
                     child: ListView.builder(

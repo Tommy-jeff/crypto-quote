@@ -45,7 +45,7 @@ class _FavoritosPageState extends State<FavoritosPage> {
               ),
             ],
         body: Container(
-          color: Colors.red.withAlpha(5),
+          color: Colors.red.withAlpha(10),
           height: MediaQuery.of(context).size.height,
           padding: EdgeInsets.all(12.0),
           child: Consumer<FavoritosRepository>(

@@ -56,6 +56,13 @@ class _MoedaDetalhePageState extends State<MoedaDetalhePage> {
 
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 70,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10)
+            )
+        ),
         elevation: 1,
         iconTheme: IconThemeData(color: Colors.white),
         centerTitle: true,

@@ -133,6 +133,13 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
   appBarDinamica() {
     if (selecionadas.isEmpty) {
       return SliverAppBar(
+        toolbarHeight: 70,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10)
+            )
+        ),
         snap: true,
         floating: true,
         centerTitle: true,
@@ -142,6 +149,13 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
       );
     } else {
       return SliverAppBar(
+        toolbarHeight: 70,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10)
+            )
+        ),
         snap: true,
         floating: true,
         centerTitle: true,

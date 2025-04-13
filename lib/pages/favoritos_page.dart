@@ -23,6 +23,13 @@ class _FavoritosPageState extends State<FavoritosPage> {
         headerSliverBuilder:
             (context, __) => [
               SliverAppBar(
+                toolbarHeight: 70,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10)
+                    )
+                ),
                 snap: true,
                 floating: true,
                 centerTitle: true,

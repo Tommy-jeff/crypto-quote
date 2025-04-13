@@ -1,4 +1,5 @@
 import 'package:crypto_quote/configs/app_settings.dart';
+import 'package:crypto_quote/configs/const.dart';
 import 'package:crypto_quote/repositories/conta_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,8 +25,15 @@ class _ConfiguracoesPageState extends State<ConfiguracoesPage> {
 
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 70,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10)
+            )
+        ),
         title: Text("Conta", style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.red,
+        backgroundColor: Const.tomato,
         centerTitle: true,
       ),
       body: Padding(

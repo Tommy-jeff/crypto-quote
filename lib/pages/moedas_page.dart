@@ -311,7 +311,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                   child: Container(
                     color: Colors.red.withAlpha(10),
                     height: MediaQuery.of(context).size.height,
-                    padding: EdgeInsets.all(12.0),
+                    padding: EdgeInsets.symmetric(horizontal: 12.0),
                     child: ListView.builder(
                       itemCount: tabela.length,
                       itemBuilder: (_, index) {

@@ -61,6 +61,7 @@ class _HomePageState extends State<HomePage> {
     log("pagina atual: $paginaAtual");
     return Scaffold(
       body: PageView(
+        padEnds: false,
         controller: pageController,
         onPageChanged: setAtualPage,
         children: [
@@ -94,7 +95,7 @@ class _HomePageState extends State<HomePage> {
         ),
         child: NavigationBar(
           height: 60,
-          backgroundColor: Colors.grey[200],
+          // backgroundColor: Colors.red,
           animationDuration: Duration(milliseconds: 350),
           indicatorColor: Colors.transparent,
           selectedIndex: paginaAtual,

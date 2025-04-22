@@ -31,27 +31,37 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Widget testeAppBar() {
-    return SliverAppBar(
-      leading: IconButton(
-        onPressed: () => {},
-        // _key.currentState?.openDrawer(),
-        icon: Icon(Icons.menu_rounded, color: Colors.white),
-      ),
-      toolbarHeight: 70,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(10),
-          bottomRight: Radius.circular(10),
+  Widget navbarItem(int atualPage, IconData icon, IconData selectedIcon, String label){
+    bool activate = paginaAtual == atualPage;
+    return Stack(
+      children: [
+        AnimatedPositioned(
+          duration: Duration(milliseconds: 200),
+          curve: Curves.easeInOut,
+          height: 60,
+          top: activate ? 0 : 60,
+          // left: activate ? 0 : 130,
+          left: 10,
+          width: 120,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 3.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Const.tomato.withAlpha(220),
+                  borderRadius: BorderRadius.all(Radius.circular(50))
+              ),
+            ),
+          ),
         ),
-      ),
-      snap: true,
-      floating: true,
-      centerTitle: true,
-      title: Text("Criptos", style: TextStyle(color: Colors.white)),
-      backgroundColor: Const.tomato,
-      actions: [
-        // changeLanguageButton(), changeFilterButton(Colors.white)
+        NavigationDestination(
+          icon: Icon(icon),
+          label: label,
+          selectedIcon: Icon(
+            selectedIcon,
+            color: Colors.white,
+            size: 27,
+          ),
+        ),
       ],
     );
   }
@@ -61,7 +71,6 @@ class _HomePageState extends State<HomePage> {
     log("pagina atual: $paginaAtual");
     return Scaffold(
       body: PageView(
-        padEnds: false,
         controller: pageController,
         onPageChanged: setAtualPage,
         children: [
@@ -83,11 +92,11 @@ class _HomePageState extends State<HomePage> {
               return TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: Const.tomato,
+                color: Colors.white,
               );
             }
             return TextStyle(
-              fontSize: 14,
+              fontSize: 13,
               fontWeight: FontWeight.w600,
               color: Const.tomato50,
             );
@@ -100,39 +109,18 @@ class _HomePageState extends State<HomePage> {
           indicatorColor: Colors.transparent,
           selectedIndex: paginaAtual,
           destinations: [
-            NavigationDestination(
-              icon: Icon(Icons.list),
-              label: "Moedas",
-              selectedIcon: Icon(Icons.view_list, color: Const.tomato, size: 30,
-              ),
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.star_border_outlined),
-              label: "Favoritos",
-              selectedIcon: Icon(Icons.star, color: Const.tomato, size: 30),
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.account_balance_wallet_outlined),
-              label: "Carteira",
-              selectedIcon: Icon(
-                Icons.account_balance_wallet,
-                color: Const.tomato,
-                size: 30,
-              ),
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.settings_outlined),
-              label: "Configurações",
-              selectedIcon: Icon(Icons.settings, color: Const.tomato, size: 30),
-            ),
+            navbarItem(0, Icons.list, Icons.view_list, "Moedas"),
+            navbarItem(1, Icons.star_border_outlined, Icons.star, "Favoritos"),
+            navbarItem(2, Icons.account_balance_wallet_outlined, Icons.account_balance_wallet, "Carteira"),
+            // appbarItem(3, Icons.settings_outlined, Icons.settings, "Configurações"),
           ],
           onDestinationSelected: (pagina) {
-            pageController.jumpToPage(pagina);
-            // pageController.animateToPage(
-            //   pagina,
-            //   duration: Duration(milliseconds: 200),
-            //   curve: Curves.ease,
-            // );
+            // pageController.jumpToPage(pagina);
+            pageController.animateToPage(
+              pagina,
+              duration: Duration(milliseconds: 400),
+              curve: Curves.easeOutQuad,
+            );
           },
         ),
       ),

@@ -282,66 +282,65 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
     favoritosRepository = context.watch<FavoritosRepository>();
     readNumberFormat();
 
-    return Scaffold(
-      key: _key,
-      drawer: sideBar(_sideBarControler),
-      body:
-      NestedScrollView(
-        headerSliverBuilder: (context, __) => [appBarDinamica()],
-        floatHeaderSlivers: true,
+    return NestedScrollView(
+      headerSliverBuilder: (__, context) => [appBarDinamica()],
+      floatHeaderSlivers: true,
+      body: Scaffold(
+        key: _key,
+        drawer: sideBar(_sideBarControler),
         body: AnimatedBuilder(
-          animation: moedaRepo,
-          builder: (context, child) {
-            List<Moeda> tabela = MoedaRepository.tabela;
-            return (tabela.isEmpty)
-                ? const Material()
-                : NotificationListener<UserScrollNotification>(
-                  onNotification: (scroll) {
-                    if (scroll.direction == ScrollDirection.reverse &&
-                        showFAB) {
-                      _controller.reverse();
-                      showFAB = false;
-                    } else if (scroll.direction == ScrollDirection.forward &&
-                        !showFAB) {
-                      _controller.forward();
-                      showFAB = true;
-                    }
-                    return true;
-                  },
-                  child: Container(
-                    color: Colors.red.withAlpha(10),
-                    height: MediaQuery.of(context).size.height,
-                    padding: EdgeInsets.symmetric(horizontal: 12.0),
-                    child: ListView.builder(
-                      itemCount: tabela.length,
-                      itemBuilder: (_, index) {
-                        return coin(tabela[index]);
-                      },
+            animation: moedaRepo,
+            builder: (context, child) {
+              List<Moeda> tabela = MoedaRepository.tabela;
+              return (tabela.isEmpty)
+                  ? const Material()
+                  : NotificationListener<UserScrollNotification>(
+                    onNotification: (scroll) {
+                      if (scroll.direction == ScrollDirection.reverse &&
+                          showFAB) {
+                        _controller.reverse();
+                        showFAB = false;
+                      } else if (scroll.direction == ScrollDirection.forward &&
+                          !showFAB) {
+                        _controller.forward();
+                        showFAB = true;
+                      }
+                      return true;
+                    },
+                    child: Container(
+                      color: Colors.red.withAlpha(10),
+                      height: MediaQuery.of(context).size.height,
+                      padding: EdgeInsets.symmetric(horizontal: 12.0),
+                      child: ListView.builder(
+                        itemCount: tabela.length,
+                        itemBuilder: (_, index) {
+                          return coin(tabela[index]);
+                        },
+                      ),
                     ),
+                  );
+            },
+          ),
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton:
+            selecionadas.isNotEmpty
+                ? ScaleTransition(
+                  scale: _animation,
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      favoritosRepository.alterFav(selecionadas);
+                      limparSelecionadas();
+                    },
+                    elevation: 1,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                    ),
+                    backgroundColor: Const.golden,
+                    child: Icon(Icons.star, color: Colors.white),
                   ),
-                );
-          },
-        ),
+                )
+                : null,
       ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton:
-          selecionadas.isNotEmpty
-              ? ScaleTransition(
-                scale: _animation,
-                child: FloatingActionButton(
-                  onPressed: () {
-                    favoritosRepository.alterFav(selecionadas);
-                    limparSelecionadas();
-                  },
-                  elevation: 1,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                  ),
-                  backgroundColor: Const.golden,
-                  child: Icon(Icons.star, color: Colors.white),
-                ),
-              )
-              : null,
     );
   }
 }

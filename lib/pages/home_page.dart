@@ -39,16 +39,15 @@ class _HomePageState extends State<HomePage> {
           duration: Duration(milliseconds: 200),
           curve: Curves.easeInOut,
           height: 60,
-          top: activate ? 0 : 60,
-          // left: activate ? 0 : 130,
-          left: 10,
-          width: 120,
+          top: activate ? 1 : 60,
+          left: MediaQuery.of(context).size.width * 0.042,
+          width: MediaQuery.of(context).size.width * 0.25,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 3.0),
             child: Container(
               decoration: BoxDecoration(
-                  color: Const.tomato.withAlpha(220),
-                  borderRadius: BorderRadius.all(Radius.circular(50))
+                  color: Colors.white.withAlpha(220),
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50))
               ),
             ),
           ),
@@ -58,7 +57,7 @@ class _HomePageState extends State<HomePage> {
           label: label,
           selectedIcon: Icon(
             selectedIcon,
-            color: Colors.white,
+            color: Const.tomato,
             size: 27,
           ),
         ),
@@ -70,6 +69,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     log("pagina atual: $paginaAtual");
     return Scaffold(
+      extendBody: true,
       body: PageView(
         controller: pageController,
         onPageChanged: setAtualPage,
@@ -82,46 +82,50 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
-          backgroundColor: Colors.grey[200],
-          indicatorColor: Colors.transparent,
+          backgroundColor: Const.tomato,
           iconTheme: WidgetStatePropertyAll(
-            IconThemeData(color: Const.tomato50, size: 25),
+            IconThemeData(color: Colors.white.withAlpha(220), size: 25),
           ),
           labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>((state) {
             if (state.contains(WidgetState.selected)) {
               return TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: Colors.white,
+                color: Const.tomato,
               );
             }
             return TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: Const.tomato50,
+              color: Colors.white.withAlpha(220),
             );
           }),
         ),
-        child: NavigationBar(
-          height: 60,
-          // backgroundColor: Colors.red,
-          animationDuration: Duration(milliseconds: 350),
-          indicatorColor: Colors.transparent,
-          selectedIndex: paginaAtual,
-          destinations: [
-            navbarItem(0, Icons.list, Icons.view_list, "Moedas"),
-            navbarItem(1, Icons.star_border_outlined, Icons.star, "Favoritos"),
-            navbarItem(2, Icons.account_balance_wallet_outlined, Icons.account_balance_wallet, "Carteira"),
-            // appbarItem(3, Icons.settings_outlined, Icons.settings, "Configurações"),
-          ],
-          onDestinationSelected: (pagina) {
-            // pageController.jumpToPage(pagina);
-            pageController.animateToPage(
-              pagina,
-              duration: Duration(milliseconds: 400),
-              curve: Curves.easeOutQuad,
-            );
-          },
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(35),
+            topRight: Radius.circular(35),
+          ),
+          child: NavigationBar(
+            height: 60,
+            animationDuration: Duration(milliseconds: 350),
+            indicatorColor: Colors.transparent,
+            selectedIndex: paginaAtual,
+            destinations: [
+              navbarItem(0, Icons.list, Icons.view_list, "Moedas"),
+              navbarItem(1, Icons.star_border_outlined, Icons.star, "Favoritos"),
+              navbarItem(2, Icons.account_balance_wallet_outlined, Icons.account_balance_wallet, "Carteira"),
+              // appbarItem(3, Icons.settings_outlined, Icons.settings, "Configurações"),
+            ],
+            onDestinationSelected: (pagina) {
+              // pageController.jumpToPage(pagina);
+              pageController.animateToPage(
+                pagina,
+                duration: Duration(milliseconds: 400),
+                curve: Curves.easeOutQuad,
+              );
+            },
+          ),
         ),
       ),
     );

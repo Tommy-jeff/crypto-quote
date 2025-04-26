@@ -1,5 +1,7 @@
+import 'dart:developer';
 import 'dart:ui';
 
+import 'package:crypto_quote/components/coin_card.dart';
 import 'package:crypto_quote/configs/app_settings.dart';
 import 'package:crypto_quote/configs/const.dart';
 import 'package:crypto_quote/models/moeda.dart';
@@ -276,7 +278,9 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     // favoritosRepository = Provider.of<FavoritosRepository>(context);
     favoritosRepository = context.watch<FavoritosRepository>();
+
     readNumberFormat();
+    log("selecionadas in page: $selecionadas");
 
     return NestedScrollView(
       headerSliverBuilder: (__, context) => [appBarDinamica()],
@@ -309,8 +313,20 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                     padding: EdgeInsets.symmetric(horizontal: 12.0),
                     child: ListView.builder(
                       itemCount: tabela.length,
-                      itemBuilder: (_, index) {
-                        return coin(tabela[index]);
+                      itemBuilder: (context, index) {
+                        Moeda moedaIndex = tabela[index];
+                        return CoinCard(
+                          moeda: moedaIndex,
+                          selecionadas: selecionadas,
+                          onLongPress: (moeda) {
+                            setState(() {
+                              selecionadas.contains(moeda)
+                                  ? selecionadas.remove(moeda)
+                                  : selecionadas.add(moeda);
+                            });
+                          },
+                        );
+                        // coin(tabela[index]);
                       },
                     ),
                   ),

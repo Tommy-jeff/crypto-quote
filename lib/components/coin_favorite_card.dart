@@ -41,9 +41,8 @@ class _CoinFavoriteCardState extends State<CoinFavoriteCard> {
 
     return Card.outlined(
       margin: EdgeInsets.only(top: 12),
-      borderOnForeground: true,
       child: InkWell(
-        borderRadius: BorderRadius.all(Radius.circular(25)),
+        borderRadius: BorderRadius.all(Radius.circular(15)),
         onTap: () => abrirDetalhes(),
         child: Padding(
           padding: EdgeInsets.only(top: 20, bottom: 20, left: 20),

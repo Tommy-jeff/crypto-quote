@@ -33,6 +33,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    double navBarheight = 70.0;
+
     log("pagina atual: $paginaAtual");
     return Scaffold(
       extendBody: true,
@@ -74,29 +76,29 @@ class _HomePageState extends State<HomePage> {
             child: Stack(
               children: [
                 SizedBox(
-                  height: 60,
+                  height: navBarheight,
                   child: Stack(
                     children: [
                       Container(
-                        color: Const.tomato,
+                        color: Const.tomato.withAlpha(240),
                         width: MediaQuery.of(context).size.width,
                       ),
                       AnimatedPositioned(
                         duration: Duration(milliseconds: 250),
                         curve: Curves.easeOutQuart,
-                        height: 60,
+                        height: navBarheight,
                         left:
                             paginaAtual == 0
                                 ? 0
                                 : paginaAtual == 1
-                                ? MediaQuery.of(context).size.width * 0.30
+                                ? MediaQuery.of(context).size.width * 0.309
                                 : paginaAtual == 2
-                                ? MediaQuery.of(context).size.width * 0.60
+                                ? MediaQuery.of(context).size.width * 0.618
                                 : 0,
                         child: Padding(
                           padding: const EdgeInsets.all(1.0),
                           child: Container(
-                            width: MediaQuery.of(context).size.width * 0.318,
+                            width: MediaQuery.of(context).size.width * 0.3,
                             decoration: BoxDecoration(
                               color: Colors.white.withAlpha(220),
                               borderRadius: BorderRadius.all(Radius.circular(50)),
@@ -108,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 NavigationBar(
-                  height: 60,
+                  height: navBarheight,
                   animationDuration: Duration(milliseconds: 350),
                   indicatorColor: Colors.transparent,
                   selectedIndex: paginaAtual,

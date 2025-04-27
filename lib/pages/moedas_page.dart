@@ -140,10 +140,6 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
   appBarDinamica() {
     if (selecionadas.isEmpty) {
       return SliverAppBar(
-        leading: IconButton(
-          onPressed: () => _key.currentState?.openDrawer(),
-          icon: Icon(Icons.menu_rounded, color: Colors.white),
-        ),
         toolbarHeight: 70,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -190,104 +186,17 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
     }
   }
 
-  mostrarDetalhes(Moeda moeda) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => MoedaDetalhePage(moeda: moeda)),
-    );
-  }
-
-  Widget coin(Moeda moeda) {
-    return Card.outlined(
-      margin: EdgeInsets.only(top: 12),
-      borderOnForeground: true,
-      color: selecionadas.contains(moeda) ? Const.tomatoWhite : null,
-      child: InkWell(
-        borderRadius: BorderRadius.all(Radius.circular(25)),
-        child: Padding(
-          padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-          child: ListTile(
-            leading:
-                selecionadas.contains(moeda)
-                    ? Icon(
-                      Icons.check_circle_rounded,
-                      size: 35.0,
-                      color: Colors.black87,
-                    )
-                    : Image.asset(moeda.icone, height: 40),
-            title: Text(
-              moeda.nome,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-            ),
-            subtitle: Row(
-              spacing: 10.0,
-              children: [
-                Text(
-                  moeda.sigla,
-                  style: TextStyle(fontSize: 13, color: Colors.black45),
-                ),
-                Visibility(
-                  visible: favoritosRepository.listaFavoritos.any(
-                    (fav) => fav.sigla == moeda.sigla,
-                  ),
-                  child: Icon(Icons.star, color: Colors.amber, size: 20),
-                ),
-              ],
-            ),
-            trailing: Text(
-              real.format(moeda.preco),
-              style: TextStyle(
-                fontSize: 16,
-                letterSpacing: -1,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            selected: selecionadas.contains(moeda),
-            onLongPress: () {
-              setState(() {
-                selecionadas.contains(moeda)
-                    ? selecionadas.remove(moeda)
-                    : selecionadas.add(moeda);
-              });
-            },
-            onTap: () => mostrarDetalhes(moeda),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget sideBar(SidebarXController controller) {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
-      child: SidebarX(
-        controller: controller,
-        extendedTheme: SidebarXTheme(
-          width: 200,
-          decoration: BoxDecoration(color: Const.tomato05.withAlpha(220)),
-        ),
-        theme: SidebarXTheme(
-          iconTheme: IconThemeData(color: Const.tomatoWhite),
-        ),
-        items: [SidebarXItem(icon: Icons.person, label: "Conta")],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     // favoritosRepository = Provider.of<FavoritosRepository>(context);
     favoritosRepository = context.watch<FavoritosRepository>();
-
     readNumberFormat();
-    log("selecionadas in page: $selecionadas");
 
     return NestedScrollView(
       headerSliverBuilder: (__, context) => [appBarDinamica()],
       floatHeaderSlivers: true,
       body: Scaffold(
         key: _key,
-        drawer: sideBar(_sideBarControler),
         body: AnimatedBuilder(
           animation: moedaRepo,
           builder: (context, child) {
@@ -333,22 +242,24 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                 );
           },
         ),
-        // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton:
             selecionadas.isNotEmpty
-                ? ScaleTransition(
-                  scale: _animation,
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      favoritosRepository.alterFav(selecionadas);
-                      limparSelecionadas();
-                    },
-                    elevation: 1,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                ? Padding(
+                  padding: MediaQuery.of(context).padding,
+                  child: ScaleTransition(
+                    scale: _animation,
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        favoritosRepository.alterFav(selecionadas);
+                        limparSelecionadas();
+                      },
+                      elevation: 1,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                      ),
+                      backgroundColor: Const.golden,
+                      child: Icon(Icons.star, color: Colors.white),
                     ),
-                    backgroundColor: Const.golden,
-                    child: Icon(Icons.star, color: Colors.white),
                   ),
                 )
                 : null,

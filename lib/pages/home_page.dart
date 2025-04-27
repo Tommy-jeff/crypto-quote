@@ -31,40 +31,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Widget navbarItem(int atualPage, IconData icon, IconData selectedIcon, String label){
-    bool activate = paginaAtual == atualPage;
-    return Stack(
-      children: [
-        AnimatedPositioned(
-          duration: Duration(milliseconds: 200),
-          curve: Curves.easeInOut,
-          height: 60,
-          top: activate ? 1 : 60,
-          left: MediaQuery.of(context).size.width * 0.042,
-          width: MediaQuery.of(context).size.width * 0.25,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 3.0),
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.white.withAlpha(220),
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50))
-              ),
-            ),
-          ),
-        ),
-        NavigationDestination(
-          icon: Icon(icon),
-          label: label,
-          selectedIcon: Icon(
-            selectedIcon,
-            color: Const.tomato,
-            size: 27,
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     log("pagina atual: $paginaAtual");
@@ -82,7 +48,7 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
-          backgroundColor: Const.tomato,
+          backgroundColor: Colors.transparent,
           iconTheme: WidgetStatePropertyAll(
             IconThemeData(color: Colors.white.withAlpha(220), size: 25),
           ),
@@ -101,30 +67,80 @@ class _HomePageState extends State<HomePage> {
             );
           }),
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(35),
-            topRight: Radius.circular(35),
-          ),
-          child: NavigationBar(
-            height: 60,
-            animationDuration: Duration(milliseconds: 350),
-            indicatorColor: Colors.transparent,
-            selectedIndex: paginaAtual,
-            destinations: [
-              navbarItem(0, Icons.list, Icons.view_list, "Moedas"),
-              navbarItem(1, Icons.star_border_outlined, Icons.star, "Favoritos"),
-              navbarItem(2, Icons.account_balance_wallet_outlined, Icons.account_balance_wallet, "Carteira"),
-              // appbarItem(3, Icons.settings_outlined, Icons.settings, "Configurações"),
-            ],
-            onDestinationSelected: (pagina) {
-              // pageController.jumpToPage(pagina);
-              pageController.animateToPage(
-                pagina,
-                duration: Duration(milliseconds: 400),
-                curve: Curves.easeOutQuad,
-              );
-            },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(35)),
+            child: Stack(
+              children: [
+                SizedBox(
+                  height: 60,
+                  child: Stack(
+                    children: [
+                      Container(
+                        color: Const.tomato,
+                        width: MediaQuery.of(context).size.width,
+                      ),
+                      AnimatedPositioned(
+                        duration: Duration(milliseconds: 250),
+                        curve: Curves.easeOutQuart,
+                        height: 60,
+                        left:
+                            paginaAtual == 0
+                                ? 0
+                                : paginaAtual == 1
+                                ? MediaQuery.of(context).size.width * 0.30
+                                : paginaAtual == 2
+                                ? MediaQuery.of(context).size.width * 0.60
+                                : 0,
+                        child: Padding(
+                          padding: const EdgeInsets.all(1.0),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.318,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withAlpha(220),
+                              borderRadius: BorderRadius.all(Radius.circular(50)),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                NavigationBar(
+                  height: 60,
+                  animationDuration: Duration(milliseconds: 350),
+                  indicatorColor: Colors.transparent,
+                  selectedIndex: paginaAtual,
+                  destinations: [
+                    NavigationDestination(
+                      icon: Icon(Icons.list),
+                      label: "Moedas",
+                      selectedIcon: Icon(Icons.view_list, color: Const.tomato, size: 27),
+                    ),
+                    NavigationDestination(
+                      icon: Icon(Icons.star_border_outlined),
+                      label: "Favoritos",
+                      selectedIcon: Icon(Icons.star, color: Const.tomato, size: 27),
+                    ),
+                    NavigationDestination(
+                      icon: Icon(Icons.account_balance_wallet_outlined),
+                      label: "Carteira",
+                      selectedIcon: Icon(Icons.account_balance_wallet, color: Const.tomato, size: 27),
+                    ),
+                    // appbarItem(3, Icons.settings_outlined, Icons.settings, "Configurações"),
+                  ],
+                  onDestinationSelected: (pagina) {
+                    // pageController.jumpToPage(pagina);
+                    pageController.animateToPage(
+                      pagina,
+                      duration: Duration(milliseconds: 400),
+                      curve: Curves.easeOutQuad,
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

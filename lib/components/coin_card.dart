@@ -37,7 +37,6 @@ class _CoinCardState extends State<CoinCard> {
     favoritosRepository = context.watch<FavoritosRepository>();
     final loc = context.read<AppSettings>().locale;
     real = NumberFormat.currency(locale: loc["locale"], name: loc["name"]);
-    log("selecionadas in component: ${widget.selecionadas}");
 
     return Card.outlined(
       margin: EdgeInsets.only(top: 12),

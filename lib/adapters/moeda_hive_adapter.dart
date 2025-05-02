@@ -13,6 +13,8 @@ class MoedaHiveAdapter extends TypeAdapter<Moeda>{
       nome: reader.readString(),
       preco: reader.readDouble(),
       sigla: reader.readString(),
+      dolarPreco: reader.readDouble(),
+      favorito: reader.readInt(),
     );
   }
 
@@ -22,6 +24,8 @@ class MoedaHiveAdapter extends TypeAdapter<Moeda>{
     writer.writeString(obj.nome);
     writer.writeDouble(obj.preco);
     writer.writeString(obj.sigla);
+    writer.writeDouble(obj.dolarPreco);
+    writer.writeInt(obj.favorito);
   }
 
 }

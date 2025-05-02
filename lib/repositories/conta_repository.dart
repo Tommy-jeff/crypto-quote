@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:crypto_quote/repositories/moeda_repository.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../database/db.dart';

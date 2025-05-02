@@ -19,7 +19,7 @@ class DB {
   _initDatabase() async {
     return await openDatabase(
       join(await getDatabasesPath(), 'cripto.db'),
-      version: 1,
+      version: 2,
       onCreate: _onCreate,
     );
   }
@@ -28,6 +28,7 @@ class DB {
     await db.execute(_conta);
     await db.execute(_carteira);
     await db.execute(_historico);
+    await db.execute(_moeda);
     await db.insert("conta", {"saldo": 0});
   }
 
@@ -63,4 +64,18 @@ class DB {
   );
   
   ''';
+
+  String get _moeda => '''
+  
+  CREATE TABLE moeda (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  nome TEXT,
+  sigla TEXT,
+  icone TEXT,
+  preco REAL,
+  dolar_preco REAL,
+  favorito INT
+  );
+  ''';
+
 }

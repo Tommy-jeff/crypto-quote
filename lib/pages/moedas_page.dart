@@ -25,14 +25,11 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
   late NumberFormat real;
   late Map<String, String> loc;
   List<Moeda> selecionadas = [];
+  List<Moeda> coins = [];
   late MoedaRepository moedaRepo;
   bool showFAB = true;
   late FavoritosRepository favoritosRepository;
   final _key = GlobalKey<ScaffoldState>();
-  final _sideBarControler = SidebarXController(
-    selectedIndex: 0,
-    extended: true,
-  );
 
   readNumberFormat() {
     loc = context.watch<AppSettings>().locale;
@@ -121,6 +118,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
   @override
   void initState() {
     moedaRepo = MoedaRepository();
+    getCoins();
     super.initState();
   }
 
@@ -129,6 +127,16 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
     // _controller.dispose();
     // _animation.dispose();
     super.dispose();
+  }
+
+  getCoins() async {
+    List coinsDb = await moedaRepo.getCoins();
+    for (Moeda item in coinsDb) {
+      var dup = coins.where((t) => t.sigla == item.sigla);
+      if(dup.isEmpty) {
+        coins.add(item);
+      }
+    }
   }
 
   limparSelecionadas() {
@@ -190,7 +198,11 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     // favoritosRepository = Provider.of<FavoritosRepository>(context);
     favoritosRepository = context.watch<FavoritosRepository>();
+    moedaRepo = context.watch<MoedaRepository>();
     readNumberFormat();
+    getCoins();
+    // log("favorites coins: ${favoritosRepository.listaFavoritos}");
+    log("coins: $coins");
 
     return NestedScrollView(
       headerSliverBuilder: (__, context) => [appBarDinamica()],
@@ -200,8 +212,8 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
         body: AnimatedBuilder(
           animation: moedaRepo,
           builder: (context, child) {
-            List<Moeda> tabela = MoedaRepository.tabela;
-            return (tabela.isEmpty)
+            // List<Moeda> tabela = MoedaRepository.tabela;
+            return (coins.isEmpty)
                 ? const Material()
                 : NotificationListener<UserScrollNotification>(
                   onNotification: (scroll) {
@@ -221,9 +233,9 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                     height: MediaQuery.of(context).size.height,
                     padding: EdgeInsets.symmetric(horizontal: 12.0),
                     child: ListView.builder(
-                      itemCount: tabela.length,
+                      itemCount: coins.length,
                       itemBuilder: (context, index) {
-                        Moeda moedaIndex = tabela[index];
+                        Moeda moedaIndex = coins[index];
                         return CoinCard(
                           moeda: moedaIndex,
                           selecionadas: selecionadas,

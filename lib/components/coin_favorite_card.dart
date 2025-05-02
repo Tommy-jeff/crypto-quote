@@ -96,10 +96,13 @@ class _CoinFavoriteCardState extends State<CoinFavoriteCard> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         backgroundColor: Const.tomato,
-                          content: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: Text("Moeda ${widget.moeda.nome} desfavoritada"),
-                          ))
+                        content: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5.0),
+                          child: Text(
+                            "Moeda ${widget.moeda.nome} desfavoritada",
+                          ),
+                        ),
+                      ),
                     );
                   }
                   setState(() {
@@ -113,8 +116,20 @@ class _CoinFavoriteCardState extends State<CoinFavoriteCard> {
                 },
                 icon:
                     !confirmDelete
-                        ? Icon(Icons.delete_outline)
-                        : Icon(Icons.delete, color: Const.tomato, size: 30),
+                        ? Icon(Icons.delete_outline_rounded)
+                        : Column(
+                          children: [
+                            Icon(
+                              Icons.delete_forever_rounded,
+                              color: Const.tomato,
+                              size: 30,
+                            ),
+                            Icon(
+                              Icons.touch_app_rounded,
+                              color: Const.tomato,
+                            )
+                          ],
+                        ),
               ),
             ],
           ),

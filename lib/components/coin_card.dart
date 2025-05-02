@@ -15,7 +15,12 @@ class CoinCard extends StatefulWidget {
   List<Moeda> selecionadas;
   final void Function(Moeda) onLongPress;
 
-  CoinCard({super.key, required this.moeda, required this.selecionadas, required this.onLongPress});
+  CoinCard({
+    super.key,
+    required this.moeda,
+    required this.selecionadas,
+    required this.onLongPress,
+  });
 
   @override
   State<CoinCard> createState() => _CoinCardState();
@@ -24,6 +29,7 @@ class CoinCard extends StatefulWidget {
 class _CoinCardState extends State<CoinCard> {
   late NumberFormat real;
   late FavoritosRepository favoritosRepository;
+  late List<Moeda> listaFav;
 
   mostrarDetalhes(Moeda moeda) {
     Navigator.push(
@@ -33,10 +39,18 @@ class _CoinCardState extends State<CoinCard> {
   }
 
   @override
+  void initState() {
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     favoritosRepository = context.watch<FavoritosRepository>();
     final loc = context.read<AppSettings>().locale;
     real = NumberFormat.currency(locale: loc["locale"], name: loc["name"]);
+
+    // log("favorites coins card: ${favoritosRepository.listaFavoritos}");
 
     return Card.outlined(
       margin: EdgeInsets.only(top: 12),
@@ -54,9 +68,9 @@ class _CoinCardState extends State<CoinCard> {
             children: [
               widget.selecionadas.contains(widget.moeda)
                   ? Icon(
-                    Icons.check_circle_rounded,
+                    Icons.check_circle_outline_rounded,
                     size: 40.0,
-                    color: Colors.black87,
+                    color: Const.zucchini,
                   )
                   : Image.asset(widget.moeda.icone, height: 40),
               Expanded(
@@ -75,21 +89,14 @@ class _CoinCardState extends State<CoinCard> {
                       Row(
                         spacing: 10.0,
                         children: [
+                          favoritosRepository.listaFavoritos.contains(widget.moeda)
+                              ? Icon(Icons.star_rounded, color: Colors.amber, size: 22)
+                              : Icon(Icons.star_border_rounded, color: Colors.grey, size: 20),
                           Text(
                             widget.moeda.sigla,
                             style: TextStyle(
                               fontSize: 13,
                               color: Colors.black45,
-                            ),
-                          ),
-                          Visibility(
-                            visible: favoritosRepository.listaFavoritos.any(
-                              (fav) => fav.sigla == widget.moeda.sigla,
-                            ),
-                            child: Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                              size: 20,
                             ),
                           ),
                         ],

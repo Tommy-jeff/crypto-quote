@@ -1,18 +1,12 @@
-import 'dart:developer';
-import 'dart:ui';
-
 import 'package:crypto_quote/components/coin_card.dart';
 import 'package:crypto_quote/configs/app_settings.dart';
 import 'package:crypto_quote/configs/const.dart';
 import 'package:crypto_quote/models/moeda.dart';
-import 'package:crypto_quote/pages/moeda_detalhe_page.dart';
-import 'package:crypto_quote/repositories/favoritos_repository.dart';
 import 'package:crypto_quote/repositories/moeda_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:sidebarx/sidebarx.dart';
 
 class MoedasPage extends StatefulWidget {
   const MoedasPage({super.key});
@@ -26,9 +20,8 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
   late Map<String, String> loc;
   List<Moeda> selecionadas = [];
   List<Moeda> coins = [];
-  late MoedaRepository moedaRepo;
+  late MoedaRepository moedaRepository;
   bool showFAB = true;
-  late FavoritosRepository favoritosRepository;
   final _key = GlobalKey<ScaffoldState>();
 
   readNumberFormat() {
@@ -69,9 +62,9 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
               onTap:
                   () => {
                     if (nameFilterAplyied != 1)
-                      {moedaRepo.sort(1), nameFilterAplyied = 1}
+                      {moedaRepository.sort(1), nameFilterAplyied = 1}
                     else if (nameFilterAplyied == 1)
-                      {moedaRepo.sort(2), nameFilterAplyied = 2},
+                      {moedaRepository.sort(2), nameFilterAplyied = 2},
                   },
               child: ListTile(
                 title: Text("A a Z"),
@@ -87,9 +80,9 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
               onTap:
                   () => {
                     if (valueFilterAplyied != 3)
-                      {moedaRepo.sort(3), valueFilterAplyied = 3}
+                      {moedaRepository.sort(3), valueFilterAplyied = 3}
                     else if (valueFilterAplyied == 3)
-                      {moedaRepo.sort(4), valueFilterAplyied = 4},
+                      {moedaRepository.sort(4), valueFilterAplyied = 4},
                   },
               child: ListTile(
                 title: Text("Preço"),
@@ -117,7 +110,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    moedaRepo = MoedaRepository();
+    moedaRepository = MoedaRepository();
     getCoins();
     super.initState();
   }
@@ -130,27 +123,20 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
   }
 
   getCoins() async {
-    List coinsDb = await moedaRepo.getCoins();
+    List coinsDb = await moedaRepository.getCoins();
     for (Moeda item in coinsDb) {
       var dup = coins.where((t) => t.sigla == item.sigla);
-      var fav = coins.where((f) => f.sigla == item.sigla && f.favorito != item.favorito);
-
-      if(dup.isEmpty) {
+      var fav = coins.where(
+        (f) => f.sigla == item.sigla && f.favorito != item.favorito,
+      );
+      if (dup.isEmpty) {
         coins.add(item);
       }
       if (fav.isNotEmpty) {
-        log("teste fav: ${fav.first.sigla}");
         int index = coins.indexWhere((i) => i.sigla == item.sigla);
         coins[index].favorito = 1;
-
-        // coins.removeWhere((i) => i.sigla == item.sigla);
-        // coins.insert(index, item);
       }
     }
-  }
-
-  shouldUpdateCoin() async {
-
   }
 
   limparSelecionadas() {
@@ -211,8 +197,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     // favoritosRepository = Provider.of<FavoritosRepository>(context);
-    favoritosRepository = context.watch<FavoritosRepository>();
-    moedaRepo = context.watch<MoedaRepository>();
+    moedaRepository = context.watch<MoedaRepository>();
     readNumberFormat();
     getCoins();
 
@@ -222,7 +207,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
       body: Scaffold(
         key: _key,
         body: AnimatedBuilder(
-          animation: moedaRepo,
+          animation: moedaRepository,
           builder: (context, child) {
             // List<Moeda> tabela = MoedaRepository.tabela;
             return (coins.isEmpty)
@@ -275,7 +260,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                     child: FloatingActionButton(
                       onPressed: () {
                         // favoritosRepository.alterFav(selecionadas);
-                        moedaRepo.favoriteCoin(selecionadas);
+                        moedaRepository.favoriteCoin(selecionadas);
                         limparSelecionadas();
                       },
                       elevation: 1,

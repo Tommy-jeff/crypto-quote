@@ -1,6 +1,7 @@
 import 'package:crypto_quote/models/moeda.dart';
 import 'package:crypto_quote/pages/moeda_detalhe_page.dart';
 import 'package:crypto_quote/repositories/favoritos_repository.dart';
+import 'package:crypto_quote/repositories/moeda_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +36,6 @@ class _CoinFavoriteCardState extends State<CoinFavoriteCard> {
 
   @override
   Widget build(BuildContext context) {
-    List<Moeda> alterFav = [widget.moeda];
     final loc = context.read<AppSettings>().locale;
     real = NumberFormat.currency(locale: loc["locale"], name: loc["name"]);
 
@@ -89,10 +89,10 @@ class _CoinFavoriteCardState extends State<CoinFavoriteCard> {
               IconButton(
                 onPressed: () {
                   if (confirmDelete) {
-                    Provider.of<FavoritosRepository>(
+                    Provider.of<MoedaRepository>(
                       context,
                       listen: false,
-                    ).alterFav(alterFav);
+                    ).desfavoriteCoin(widget.moeda.sigla);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         backgroundColor: Const.tomato,

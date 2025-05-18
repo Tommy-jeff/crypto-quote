@@ -181,9 +181,7 @@ class MoedaRepository extends ChangeNotifier {
 
   deleteCoin() async {
     db = DB.instance.database;
-
   }
-
 
   Future<List<Moeda>> getCoins() async {
     db = await DB.instance.database;
@@ -201,18 +199,18 @@ class MoedaRepository extends ChangeNotifier {
         ),
       );
     }
-    log("getCoins query: $coins");
     return coins;
   }
 
   Future<void> insertCoin(Moeda moeda) async {
     db = await DB.instance.database;
     await db.transaction((ins) async {
-      final verifyCoin = await ins.query("moeda",
-          where: "sigla = ?",
-          whereArgs: [moeda.sigla]
+      final verifyCoin = await ins.query(
+        "moeda",
+        where: "sigla = ?",
+        whereArgs: [moeda.sigla],
       );
-      if(verifyCoin.isEmpty){
+      if (verifyCoin.isEmpty) {
         await ins.insert("moeda", {
           "nome": moeda.nome,
           "sigla": moeda.sigla,
@@ -226,33 +224,56 @@ class MoedaRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<String>> getFavoriteList() async {
+  Future<List<Moeda>> getFavoriteList() async {
     db = await DB.instance.database;
-    List<String> favs = [];
-    List moedas = await db.query("moeda", where: "favorito = ?", whereArgs: [1]);
+    List<Moeda> favs = [];
+    List moedas = await db.query(
+      "moeda",
+      where: "favorito = ?",
+      whereArgs: [1],
+    );
     for (var moeda in moedas) {
-        favs.add(moeda["sigla"]);
+      favs.add(
+        Moeda(
+          icone: moeda["icone"],
+          nome: moeda["nome"],
+          sigla: moeda["sigla"],
+          preco: moeda["preco"],
+          dolarPreco: moeda["dolar_preco"],
+          favorito: moeda["favorito"],
+        ),
+      );
     }
-    notifyListeners();
+    log("tralalero tralala");
     return favs;
-  }
-
-  getCoinFavTest(String sigla) async {
-    db = await DB.instance.database;
-    var coin = await db.query("moeda", where: "sigla = ?", whereArgs: [sigla]);
-    log("getCoinFavTest: $coin");
   }
 
   favoriteCoin(List<Moeda> coins) async {
     db = await DB.instance.database;
     List updates = [];
     for (var c in coins) {
-      var up = await db.update("moeda", {"favorito": 1}, where: "sigla = ?", whereArgs: [c.sigla]);
-      log("Favoritando as moedas: ${c.nome}");
+      var up = await db.update(
+        "moeda",
+        {"favorito": 1},
+        where: "sigla = ?",
+        whereArgs: [c.sigla],
+      );
       updates.add(up);
     }
+    notifyListeners();
+  }
 
-    await getCoinFavTest(coins.first.sigla);
+  desfavoriteCoin(String sigla) async {
+    db = await DB.instance.database;
+    List updates = [];
+    var up = await db.update(
+      "moeda",
+      {"favorito": 0},
+      where: "sigla = ?",
+      whereArgs: [sigla],
+    );
+    log("Desavoritando as moedas: ${sigla}");
+    updates.add(up);
     notifyListeners();
   }
 

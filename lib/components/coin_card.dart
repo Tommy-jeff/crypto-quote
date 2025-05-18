@@ -43,7 +43,6 @@ class _CoinCardState extends State<CoinCard> {
   @override
   void initState() {
     moedaRepository = MoedaRepository();
-    // getFavorites();
     super.initState();
   }
 
@@ -56,8 +55,7 @@ class _CoinCardState extends State<CoinCard> {
 
     return Card.outlined(
       margin: EdgeInsets.only(top: 12),
-      color: widget.selecionadas.contains(widget.moeda) ? Const.zucchiniExtraLite : null,
-      // elevation: widget.selecionadas.contains(widget.moeda) ? 2 : 0,
+      color: widget.selecionadas.contains(widget.moeda) ? Colors.blueGrey[50] : null,
       // shadowColor: Const.tomato,
       child: InkWell(
         borderRadius: BorderRadius.all(Radius.circular(15)),

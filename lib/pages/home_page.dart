@@ -71,7 +71,10 @@ class _HomePageState extends State<HomePage> {
             }),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 15.0,
+              vertical: 5.0,
+            ),
             child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(35)),
               child: Stack(
@@ -81,11 +84,11 @@ class _HomePageState extends State<HomePage> {
                     child: Stack(
                       children: [
                         Container(
-                          color: Const.tomato.withAlpha(240),
+                          color: Const.tomato.withAlpha(230),
                           width: MediaQuery.of(context).size.width,
                         ),
                         AnimatedPositioned(
-                          duration: Duration(milliseconds: 250),
+                          duration: Duration(milliseconds: 350),
                           curve: Curves.easeOutQuart,
                           height: navBarheight,
                           left:
@@ -93,14 +96,22 @@ class _HomePageState extends State<HomePage> {
                                   ? 0
                                   : paginaAtual == 1
                                   ? MediaQuery.of(context).size.width * 0.3105
-                                  : MediaQuery.of(context).size.width * 0.621,
+                                  : MediaQuery.of(context).size.width * 0.619,
+                          right:
+                              paginaAtual == 0
+                                  ? MediaQuery.of(context).size.width * 0.619
+                                  : paginaAtual == 1
+                                  ? MediaQuery.of(context).size.width * 0.3105
+                                  : 0,
                           child: Padding(
                             padding: const EdgeInsets.all(1.0),
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.3,
                               decoration: BoxDecoration(
                                 color: Colors.white.withAlpha(220),
-                                borderRadius: BorderRadius.all(Radius.circular(50)),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(50),
+                                ),
                               ),
                             ),
                           ),
@@ -117,17 +128,29 @@ class _HomePageState extends State<HomePage> {
                       NavigationDestination(
                         icon: Icon(Icons.list),
                         label: "Moedas",
-                        selectedIcon: Icon(Icons.view_list, color: Const.tomato, size: 27),
+                        selectedIcon: Icon(
+                          Icons.view_list,
+                          color: Const.tomato,
+                          size: 27,
+                        ),
                       ),
                       NavigationDestination(
                         icon: Icon(Icons.star_border_outlined),
                         label: "Favoritos",
-                        selectedIcon: Icon(Icons.star, color: Const.tomato, size: 27),
+                        selectedIcon: Icon(
+                          Icons.star,
+                          color: Const.tomato,
+                          size: 27,
+                        ),
                       ),
                       NavigationDestination(
                         icon: Icon(Icons.account_balance_wallet_outlined),
                         label: "Carteira",
-                        selectedIcon: Icon(Icons.account_balance_wallet, color: Const.tomato, size: 27),
+                        selectedIcon: Icon(
+                          Icons.account_balance_wallet,
+                          color: Const.tomato,
+                          size: 27,
+                        ),
                       ),
                       // appbarItem(3, Icons.settings_outlined, Icons.settings, "Configurações"),
                     ],
@@ -135,8 +158,8 @@ class _HomePageState extends State<HomePage> {
                       // pageController.jumpToPage(pagina);
                       pageController.animateToPage(
                         pagina,
-                        duration: Duration(milliseconds: 400),
-                        curve: Curves.easeOutQuad,
+                        duration: Duration(milliseconds: 350),
+                        curve: Curves.easeOutQuart,
                       );
                     },
                   ),

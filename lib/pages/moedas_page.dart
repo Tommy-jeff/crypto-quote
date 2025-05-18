@@ -133,10 +133,24 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
     List coinsDb = await moedaRepo.getCoins();
     for (Moeda item in coinsDb) {
       var dup = coins.where((t) => t.sigla == item.sigla);
+      var fav = coins.where((f) => f.sigla == item.sigla && f.favorito != item.favorito);
+
       if(dup.isEmpty) {
         coins.add(item);
       }
+      if (fav.isNotEmpty) {
+        log("teste fav: ${fav.first.sigla}");
+        int index = coins.indexWhere((i) => i.sigla == item.sigla);
+        coins[index].favorito = 1;
+
+        // coins.removeWhere((i) => i.sigla == item.sigla);
+        // coins.insert(index, item);
+      }
     }
+  }
+
+  shouldUpdateCoin() async {
+
   }
 
   limparSelecionadas() {
@@ -201,8 +215,6 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
     moedaRepo = context.watch<MoedaRepository>();
     readNumberFormat();
     getCoins();
-    // log("favorites coins: ${favoritosRepository.listaFavoritos}");
-    log("coins: $coins");
 
     return NestedScrollView(
       headerSliverBuilder: (__, context) => [appBarDinamica()],
@@ -262,7 +274,8 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                     scale: _animation,
                     child: FloatingActionButton(
                       onPressed: () {
-                        favoritosRepository.alterFav(selecionadas);
+                        // favoritosRepository.alterFav(selecionadas);
+                        moedaRepo.favoriteCoin(selecionadas);
                         limparSelecionadas();
                       },
                       elevation: 1,

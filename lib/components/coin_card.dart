@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:crypto_quote/configs/app_settings.dart';
 import 'package:crypto_quote/models/moeda.dart';
+import 'package:crypto_quote/repositories/moeda_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +30,8 @@ class CoinCard extends StatefulWidget {
 class _CoinCardState extends State<CoinCard> {
   late NumberFormat real;
   late FavoritosRepository favoritosRepository;
-  late List<Moeda> listaFav;
+  late MoedaRepository moedaRepository;
+  // List<String> listaFav = [];
 
   mostrarDetalhes(Moeda moeda) {
     Navigator.push(
@@ -40,22 +42,23 @@ class _CoinCardState extends State<CoinCard> {
 
   @override
   void initState() {
-
+    moedaRepository = MoedaRepository();
+    // getFavorites();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     favoritosRepository = context.watch<FavoritosRepository>();
+    moedaRepository = context.watch<MoedaRepository>();
     final loc = context.read<AppSettings>().locale;
     real = NumberFormat.currency(locale: loc["locale"], name: loc["name"]);
 
-    // log("favorites coins card: ${favoritosRepository.listaFavoritos}");
-
     return Card.outlined(
       margin: EdgeInsets.only(top: 12),
-      color:
-          widget.selecionadas.contains(widget.moeda) ? Const.tomatoWhite : null,
+      color: widget.selecionadas.contains(widget.moeda) ? Const.zucchiniExtraLite : null,
+      // elevation: widget.selecionadas.contains(widget.moeda) ? 2 : 0,
+      // shadowColor: Const.tomato,
       child: InkWell(
         borderRadius: BorderRadius.all(Radius.circular(15)),
         onTap: () => mostrarDetalhes(widget.moeda),
@@ -66,13 +69,7 @@ class _CoinCardState extends State<CoinCard> {
           padding: EdgeInsets.only(top: 20, bottom: 20, left: 20),
           child: Row(
             children: [
-              widget.selecionadas.contains(widget.moeda)
-                  ? Icon(
-                    Icons.check_circle_outline_rounded,
-                    size: 40.0,
-                    color: Const.zucchini,
-                  )
-                  : Image.asset(widget.moeda.icone, height: 40),
+              Image.asset(widget.moeda.icone, height: 40),
               Expanded(
                 child: Container(
                   margin: EdgeInsets.only(left: 12),
@@ -89,7 +86,7 @@ class _CoinCardState extends State<CoinCard> {
                       Row(
                         spacing: 10.0,
                         children: [
-                          favoritosRepository.listaFavoritos.contains(widget.moeda)
+                          widget.moeda.favorito == 1
                               ? Icon(Icons.star_rounded, color: Colors.amber, size: 22)
                               : Icon(Icons.star_border_rounded, color: Colors.grey, size: 20),
                           Text(

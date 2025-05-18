@@ -226,23 +226,33 @@ class MoedaRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  getFavs() async {
+  Future<List<String>> getFavoriteList() async {
     db = await DB.instance.database;
-    List moedas = await db.query("moeda");
+    List<String> favs = [];
+    List moedas = await db.query("moeda", where: "favorito = ?", whereArgs: [1]);
     for (var moeda in moedas) {
-      if (moeda["favorito"] == 1) {
-        favoritos.add(
-          Moeda(
-            icone: moeda["icone"],
-            nome: moeda["nome"],
-            sigla: moeda["sigla"],
-            preco: moeda["preco"],
-            dolarPreco: moeda["dolar_preco"],
-            favorito: moeda["favorito"],
-          ),
-        );
-      }
+        favs.add(moeda["sigla"]);
     }
+    notifyListeners();
+    return favs;
+  }
+
+  getCoinFavTest(String sigla) async {
+    db = await DB.instance.database;
+    var coin = await db.query("moeda", where: "sigla = ?", whereArgs: [sigla]);
+    log("getCoinFavTest: $coin");
+  }
+
+  favoriteCoin(List<Moeda> coins) async {
+    db = await DB.instance.database;
+    List updates = [];
+    for (var c in coins) {
+      var up = await db.update("moeda", {"favorito": 1}, where: "sigla = ?", whereArgs: [c.sigla]);
+      log("Favoritando as moedas: ${c.nome}");
+      updates.add(up);
+    }
+
+    await getCoinFavTest(coins.first.sigla);
     notifyListeners();
   }
 

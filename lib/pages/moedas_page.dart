@@ -98,15 +98,9 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
     );
   }
 
-  late final _controller = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 400),
-  )..forward();
+  late final _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 400))..forward();
 
-  late final _animation = CurvedAnimation(
-    parent: _controller,
-    curve: Curves.fastLinearToSlowEaseIn,
-  );
+  late final _animation = CurvedAnimation(parent: _controller, curve: Curves.fastLinearToSlowEaseIn);
 
   @override
   void initState() {
@@ -126,9 +120,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
     List coinsDb = await moedaRepository.getCoins();
     for (Moeda item in coinsDb) {
       var dup = coins.where((t) => t.sigla == item.sigla);
-      var fav = coins.where(
-        (f) => f.sigla == item.sigla && f.favorito != item.favorito,
-      );
+      var fav = coins.where((f) => f.sigla == item.sigla && f.favorito != item.favorito);
       if (dup.isEmpty) {
         coins.add(item);
       }
@@ -149,12 +141,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
     if (selecionadas.isEmpty) {
       return SliverAppBar(
         toolbarHeight: 70,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(10),
-            bottomRight: Radius.circular(10),
-          ),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
         snap: true,
         floating: true,
         centerTitle: true,
@@ -165,19 +152,11 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
     } else {
       return SliverAppBar(
         toolbarHeight: 70,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(10),
-            bottomRight: Radius.circular(10),
-          ),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
         snap: true,
         floating: true,
         centerTitle: true,
-        title: Text(
-          "${selecionadas.length} itens selecionados",
-          style: TextStyle(color: Colors.black87),
-        ),
+        title: Text("${selecionadas.length} itens selecionados", style: TextStyle(color: Colors.black87)),
         backgroundColor: Colors.blueGrey[50],
         elevation: 1,
         actions: [changeFilterButton(Colors.black87)],
@@ -214,12 +193,10 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                 ? const Material()
                 : NotificationListener<UserScrollNotification>(
                   onNotification: (scroll) {
-                    if (scroll.direction == ScrollDirection.reverse &&
-                        showFAB) {
+                    if (scroll.direction == ScrollDirection.reverse && showFAB) {
                       _controller.reverse();
                       showFAB = false;
-                    } else if (scroll.direction == ScrollDirection.forward &&
-                        !showFAB) {
+                    } else if (scroll.direction == ScrollDirection.forward && !showFAB) {
                       _controller.forward();
                       showFAB = true;
                     }
@@ -238,9 +215,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                           selecionadas: selecionadas,
                           onLongPress: (moeda) {
                             setState(() {
-                              selecionadas.contains(moeda)
-                                  ? selecionadas.remove(moeda)
-                                  : selecionadas.add(moeda);
+                              selecionadas.contains(moeda) ? selecionadas.remove(moeda) : selecionadas.add(moeda);
                             });
                           },
                         );
@@ -264,9 +239,7 @@ class _MoedasPageState extends State<MoedasPage> with TickerProviderStateMixin {
                         limparSelecionadas();
                       },
                       elevation: 1,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                      ),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
                       backgroundColor: Const.golden,
                       child: Icon(Icons.star, color: Colors.white),
                     ),

@@ -17,11 +17,7 @@ class DB {
   }
 
   _initDatabase() async {
-    return await openDatabase(
-      join(await getDatabasesPath(), 'cripto.db'),
-      version: 2,
-      onCreate: _onCreate,
-    );
+    return await openDatabase(join(await getDatabasesPath(), 'cripto.db'), version: 2, onCreate: _onCreate);
   }
 
   _onCreate(Database db, int version) async {
@@ -77,5 +73,4 @@ class DB {
   favorito INT
   );
   ''';
-
 }

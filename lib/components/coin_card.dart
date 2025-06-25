@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:crypto_quote/configs/app_settings.dart';
 import 'package:crypto_quote/models/moeda.dart';
 import 'package:crypto_quote/repositories/moeda_repository.dart';
@@ -7,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../configs/const.dart';
 import '../pages/moeda_detalhe_page.dart';
 import '../repositories/favoritos_repository.dart';
 
@@ -16,12 +13,7 @@ class CoinCard extends StatefulWidget {
   List<Moeda> selecionadas;
   final void Function(Moeda) onLongPress;
 
-  CoinCard({
-    super.key,
-    required this.moeda,
-    required this.selecionadas,
-    required this.onLongPress,
-  });
+  CoinCard({super.key, required this.moeda, required this.selecionadas, required this.onLongPress});
 
   @override
   State<CoinCard> createState() => _CoinCardState();
@@ -31,13 +23,11 @@ class _CoinCardState extends State<CoinCard> {
   late NumberFormat real;
   late FavoritosRepository favoritosRepository;
   late MoedaRepository moedaRepository;
+
   // List<String> listaFav = [];
 
   mostrarDetalhes(Moeda moeda) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => MoedaDetalhePage(moeda: moeda)),
-    );
+    Navigator.push(context, MaterialPageRoute(builder: (_) => MoedaDetalhePage(moeda: moeda)));
   }
 
   @override
@@ -74,39 +64,21 @@ class _CoinCardState extends State<CoinCard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        widget.moeda.nome,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      Text(widget.moeda.nome, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
                       Row(
                         spacing: 10.0,
                         children: [
                           widget.moeda.favorito == 1
                               ? Icon(Icons.star_rounded, color: Colors.amber, size: 22)
                               : Icon(Icons.star_border_rounded, color: Colors.grey, size: 20),
-                          Text(
-                            widget.moeda.sigla,
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.black45,
-                            ),
-                          ),
+                          Text(widget.moeda.sigla, style: TextStyle(fontSize: 13, color: Colors.black45)),
                         ],
                       ),
                     ],
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(right: 20.0),
-                child: Text(
-                  real.format(widget.moeda.preco),
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
+              Container(margin: EdgeInsets.only(right: 20.0), child: Text(real.format(widget.moeda.preco), style: TextStyle(fontSize: 16))),
             ],
           ),
         ),

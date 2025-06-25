@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 import '../models/moeda.dart';
 
-class MoedaHiveAdapter extends TypeAdapter<Moeda>{
+class MoedaHiveAdapter extends TypeAdapter<Moeda> {
   @override
   final typeId = 0;
 
@@ -27,5 +27,4 @@ class MoedaHiveAdapter extends TypeAdapter<Moeda>{
     writer.writeDouble(obj.dolarPreco);
     writer.writeInt(obj.favorito);
   }
-
 }

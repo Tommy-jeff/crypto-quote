@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:crypto_quote/configs/app_settings.dart';
 import 'package:crypto_quote/configs/const.dart';
 import 'package:crypto_quote/models/posicao.dart';
@@ -43,18 +41,8 @@ class _CarteiraPageState extends State<CarteiraPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: [
-            Padding(
-              padding: EdgeInsets.only(top: 48, bottom: 8),
-              child: Text("Valor da Carteira", style: TextStyle(fontSize: 18)),
-            ),
-            Text(
-              real.format(totalCarteira),
-              style: TextStyle(
-                fontSize: 35,
-                fontWeight: FontWeight.w700,
-                letterSpacing: -1.5,
-              ),
-            ),
+            Padding(padding: EdgeInsets.only(top: 48, bottom: 8), child: Text("Valor da Carteira", style: TextStyle(fontSize: 18))),
+            Text(real.format(totalCarteira), style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700, letterSpacing: -1.5)),
             loadGrafico(),
             loadHistorico(),
           ],
@@ -85,7 +73,7 @@ class _CarteiraPageState extends State<CarteiraPage> {
     }
   }
 
-  loadCarteira(){
+  loadCarteira() {
     setGraficoDados(index);
     carteira = conta.carteira;
     final tamanhoLista = carteira.length + 1;
@@ -110,13 +98,8 @@ class _CarteiraPageState extends State<CarteiraPage> {
         value: porcentagem,
         title: "${porcentagem.toStringAsFixed(0)}%",
         radius: radius,
-        titleStyle: TextStyle(
-          fontSize: fontSize,
-          fontWeight: FontWeight.bold,
-          color: Const.tomatoWhite
-        )
+        titleStyle: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold, color: Const.tomatoWhite),
       );
-
     });
   }
 
@@ -158,24 +141,15 @@ class _CarteiraPageState extends State<CarteiraPage> {
             ),
             Column(
               children: [
-                Text(
-                  graficoLabel,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Const.zucchini
-                  ),
-                ),
-                Text(
-                  real.format(graficoValor),
-                  style: TextStyle(fontSize: 28),
-                )
+                Text(graficoLabel, style: TextStyle(fontSize: 20, color: Const.zucchini)),
+                Text(real.format(graficoValor), style: TextStyle(fontSize: 28)),
               ],
-            )
+            ),
           ],
         );
   }
 
-  loadHistorico(){
+  loadHistorico() {
     final historico = conta.historico;
     final date = DateFormat("dd/MM/yyyy - HH:mm");
     List<Widget> widgets = [];
@@ -188,19 +162,12 @@ class _CarteiraPageState extends State<CarteiraPage> {
           title: Text("${transacao.tipoOperacao.toUpperCase()} - ${transacao.moeda.nome}"),
           subtitle: Text(date.format(dateLocal)),
           trailing: Text(real.format(transacao.moeda.preco * transacao.quantidade)),
-        )
+        ),
       );
 
-      widgets.add(Divider(
-        color: Const.tomato80,
-        indent: 10,
-        endIndent: 10,
-        height: 20,
-      ));
+      widgets.add(Divider(color: Const.tomato80, indent: 10, endIndent: 10, height: 20));
     }
 
-    return Column(
-      children: widgets,
-    );
+    return Column(children: widgets);
   }
 }

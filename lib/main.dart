@@ -1,4 +1,3 @@
-import 'package:crypto_quote/components/coin_card.dart';
 import 'package:crypto_quote/configs/app_settings.dart';
 import 'package:crypto_quote/meu_aplicativo.dart';
 import 'package:crypto_quote/repositories/conta_repository.dart';

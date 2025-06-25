@@ -29,6 +29,7 @@ class _MoedaDetalhePageState extends State<MoedaDetalhePage> {
   executeCompraRepo() async {
     await contaRepository.comprar(widget.moeda, double.parse(_valor.text));
   }
+
   comprar() {
     if (_form.currentState!.validate()) {
       executeCompraRepo();
@@ -38,10 +39,7 @@ class _MoedaDetalhePageState extends State<MoedaDetalhePage> {
           backgroundColor: Const.tomato,
           content: Padding(
             padding: const EdgeInsets.symmetric(vertical: 5.0),
-            child: Text(
-              "Compra realizada com sucesso!",
-              style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
-            ),
+            child: Text("Compra realizada com sucesso!", style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold)),
           ),
         ),
       );
@@ -57,23 +55,11 @@ class _MoedaDetalhePageState extends State<MoedaDetalhePage> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10)
-            )
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
         elevation: 1,
         iconTheme: IconThemeData(color: Colors.white),
         centerTitle: true,
-        title: Text(
-          widget.moeda.nome,
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
-          ),
-        ),
+        title: Text(widget.moeda.nome, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25)),
         backgroundColor: Const.tomato,
       ),
       body: Column(
@@ -89,18 +75,10 @@ class _MoedaDetalhePageState extends State<MoedaDetalhePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        width: 50,
-                        child: Image.asset(widget.moeda.icone),
-                      ),
+                      SizedBox(width: 50, child: Image.asset(widget.moeda.icone)),
                       Text(
                         real.format(widget.moeda.preco),
-                        style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: -1,
-                          color: Colors.grey[800],
-                        ),
+                        style: TextStyle(fontSize: 26, fontWeight: FontWeight.w600, letterSpacing: -1, color: Colors.grey[800]),
                       ),
                     ],
                   ),
@@ -115,9 +93,7 @@ class _MoedaDetalhePageState extends State<MoedaDetalhePage> {
                     textInputType: TextInputType.number,
                     onChanged: (value) {
                       setState(() {
-                        crypto = (value.isEmpty)
-                                ? 0
-                                : double.parse(value) / widget.moeda.preco;
+                        crypto = (value.isEmpty) ? 0 : double.parse(value) / widget.moeda.preco;
                       });
                     },
                     validator: (value) {
@@ -140,14 +116,8 @@ class _MoedaDetalhePageState extends State<MoedaDetalhePage> {
                       margin: EdgeInsets.only(top: 20.0),
                       alignment: Alignment.center,
                       padding: EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.teal.withValues(alpha: 0.05),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        '$crypto ${widget.moeda.sigla}',
-                        style: TextStyle(fontSize: 20, color: Colors.teal),
-                      ),
+                      decoration: BoxDecoration(color: Colors.teal.withValues(alpha: 0.05), borderRadius: BorderRadius.circular(20)),
+                      child: Text('$crypto ${widget.moeda.sigla}', style: TextStyle(fontSize: 20, color: Colors.teal)),
                     ),
                   ),
                 ),
@@ -155,11 +125,7 @@ class _MoedaDetalhePageState extends State<MoedaDetalhePage> {
                   alignment: Alignment.bottomCenter,
                   margin: EdgeInsets.only(top: 24.0),
                   child: FullButtonComponent(
-                    icon: Icon(
-                      Icons.attach_money,
-                      color: Colors.white,
-                      size: 30,
-                    ),
+                    icon: Icon(Icons.attach_money, color: Colors.white, size: 30),
                     label: "Comprar",
                     onPressed: comprar,
                   ),

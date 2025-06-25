@@ -8,34 +8,20 @@ class FullButtonComponent extends StatelessWidget {
 
   final buttonStyle = ElevatedButton.styleFrom(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-    backgroundColor: Const.zucchiniLite
+    backgroundColor: Const.zucchiniLite,
   );
 
-  FullButtonComponent({
-    super.key,
-    required this.icon,
-    required this.label,
-    required this.onPressed,
-  });
+  FullButtonComponent({super.key, required this.icon, required this.label, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
+      width: MediaQuery.of(context).size.width,
       child: ElevatedButton.icon(
         onPressed: onPressed,
         style: buttonStyle,
         icon: icon,
-        label: Padding(
-          padding: EdgeInsets.all(16),
-          child: Text(
-            label,
-            style: TextStyle(fontSize: 20, color: Colors.white),
-          ),
-        ),
+        label: Padding(padding: EdgeInsets.all(16), child: Text(label, style: TextStyle(fontSize: 20, color: Colors.white))),
       ),
     );
   }

@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 class Const {
-
   /// Colors
   static final Color tomato = Color(0xFFA51E22);
   static final Color tomatoLite = Color(0xFFC62428);
@@ -16,6 +15,4 @@ class Const {
   static final Color zucchiniLite = Color(0xFF35843C);
   static final Color zucchiniExtraLite = Color(0xFF57C461);
   static final Color golden = Color(0xFFF2AF1D);
-
-
 }

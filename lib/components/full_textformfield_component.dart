@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -34,10 +32,7 @@ class FullTextformfieldComponent extends StatelessWidget {
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
           labelText: label,
           prefixIcon: prefixIcon,
-          suffix: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Text("reais", style: TextStyle(fontSize: 14)),
-          ),
+          suffix: Padding(padding: const EdgeInsets.symmetric(horizontal: 10.0), child: Text("reais", style: TextStyle(fontSize: 14))),
         ),
         keyboardType: textInputType,
         inputFormatters: inputFormater,

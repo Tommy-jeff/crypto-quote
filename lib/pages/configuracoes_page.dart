@@ -18,20 +18,12 @@ class _ConfiguracoesPageState extends State<ConfiguracoesPage> {
   Widget build(BuildContext context) {
     final conta = context.watch<ContaRepository>();
     final loc = context.read<AppSettings>().locale;
-    NumberFormat real = NumberFormat.currency(
-      locale: loc["locale"],
-      name: loc["name"],
-    );
+    NumberFormat real = NumberFormat.currency(locale: loc["locale"], name: loc["name"]);
 
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(10),
-            bottomRight: Radius.circular(10),
-          ),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
         title: Text("Conta", style: TextStyle(color: Colors.white)),
         backgroundColor: Const.tomato,
         centerTitle: true,
@@ -44,14 +36,8 @@ class _ConfiguracoesPageState extends State<ConfiguracoesPage> {
             children: [
               ListTile(
                 title: Text("Saldo"),
-                subtitle: Text(
-                  real.format(conta.saldo),
-                  style: TextStyle(fontSize: 25, color: Colors.indigo[300]),
-                ),
-                trailing: IconButton(
-                  onPressed: updateSaldo,
-                  icon: Icon(Icons.edit),
-                ),
+                subtitle: Text(real.format(conta.saldo), style: TextStyle(fontSize: 25, color: Colors.indigo[300])),
+                trailing: IconButton(onPressed: updateSaldo, icon: Icon(Icons.edit)),
               ),
             ],
           ),
@@ -74,9 +60,7 @@ class _ConfiguracoesPageState extends State<ConfiguracoesPage> {
         child: TextFormField(
           controller: valor,
           keyboardType: TextInputType.number,
-          inputFormatters: [
-            FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*')),
-          ],
+          inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*'))],
           validator: (value) {
             if (value!.isEmpty) return "Informe o valor do saldo";
             return null;
@@ -84,18 +68,11 @@ class _ConfiguracoesPageState extends State<ConfiguracoesPage> {
         ),
       ),
       actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text("Cancelar"),
-        ),
+        TextButton(onPressed: () => Navigator.pop(context), child: Text("Cancelar")),
         TextButton(
           onPressed:
               () => {
-                if (form.currentState!.validate())
-                  {
-                    conta.setSaldo(double.parse(valor.text)),
-                    Navigator.pop(context),
-                  },
+                if (form.currentState!.validate()) {conta.setSaldo(double.parse(valor.text)), Navigator.pop(context)},
               },
           child: Text("Salvar"),
         ),

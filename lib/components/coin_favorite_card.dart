@@ -1,6 +1,5 @@
 import 'package:crypto_quote/models/moeda.dart';
 import 'package:crypto_quote/pages/moeda_detalhe_page.dart';
-import 'package:crypto_quote/repositories/favoritos_repository.dart';
 import 'package:crypto_quote/repositories/moeda_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -22,16 +21,10 @@ class _CoinFavoriteCardState extends State<CoinFavoriteCard> {
   late NumberFormat real;
   bool confirmDelete = false;
 
-  static Map<String, Color> precoColor = <String, Color>{
-    'up': Const.zucchini,
-    'down': Const.denim,
-  };
+  static Map<String, Color> precoColor = <String, Color>{'up': Const.zucchini, 'down': Const.denim};
 
   abrirDetalhes() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => MoedaDetalhePage(moeda: widget.moeda)),
-    );
+    Navigator.push(context, MaterialPageRoute(builder: (_) => MoedaDetalhePage(moeda: widget.moeda)));
   }
 
   @override
@@ -55,17 +48,8 @@ class _CoinFavoriteCardState extends State<CoinFavoriteCard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        widget.moeda.nome,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        widget.moeda.sigla,
-                        style: TextStyle(fontSize: 13, color: Colors.black45),
-                      ),
+                      Text(widget.moeda.nome, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                      Text(widget.moeda.sigla, style: TextStyle(fontSize: 13, color: Colors.black45)),
                     ],
                   ),
                 ),
@@ -77,30 +61,18 @@ class _CoinFavoriteCardState extends State<CoinFavoriteCard> {
                   border: Border.all(color: precoColor['down']!.withAlpha(5)),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Text(
-                  real.format(widget.moeda.preco),
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: precoColor['down'],
-                    letterSpacing: -1,
-                  ),
-                ),
+                child: Text(real.format(widget.moeda.preco), style: TextStyle(fontSize: 16, color: precoColor['down'], letterSpacing: -1)),
               ),
               IconButton(
                 onPressed: () {
                   if (confirmDelete) {
-                    Provider.of<MoedaRepository>(
-                      context,
-                      listen: false,
-                    ).desfavoriteCoin(widget.moeda.sigla);
+                    Provider.of<MoedaRepository>(context, listen: false).desfavoriteCoin(widget.moeda.sigla);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         backgroundColor: Const.tomato,
                         content: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 5.0),
-                          child: Text(
-                            "Moeda ${widget.moeda.nome} desfavoritada",
-                          ),
+                          child: Text("Moeda ${widget.moeda.nome} desfavoritada"),
                         ),
                       ),
                     );
@@ -119,15 +91,8 @@ class _CoinFavoriteCardState extends State<CoinFavoriteCard> {
                         ? Icon(Icons.delete_outline_rounded)
                         : Column(
                           children: [
-                            Icon(
-                              Icons.delete_forever_rounded,
-                              color: Const.tomato,
-                              size: 30,
-                            ),
-                            Icon(
-                              Icons.touch_app_rounded,
-                              color: Const.tomato,
-                            )
+                            Icon(Icons.delete_forever_rounded, color: Const.tomato, size: 30),
+                            Icon(Icons.touch_app_rounded, color: Const.tomato),
                           ],
                         ),
               ),

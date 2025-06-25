@@ -7,11 +7,5 @@ class Historico {
   double valor;
   double quantidade;
 
-  Historico({
-    required this.dataOperacao,
-    required this.tipoOperacao,
-    required this.moeda,
-    required this.valor,
-    required this.quantidade,
-  });
+  Historico({required this.dataOperacao, required this.tipoOperacao, required this.moeda, required this.valor, required this.quantidade});
 }
